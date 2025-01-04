@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-roles-table
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: enum('ROLE_USER', 'ROLE_ADMIN', 'ROLE_MARKET_ADMIN', 'ROLE_AUCTION_ADMIN', 'ROLE_COPYWRITER', 'ROLE_EXPERT')
+                  constraints:
+                    nullable: false
+                    unique: true

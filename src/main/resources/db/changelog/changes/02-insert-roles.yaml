@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-roles
+      author: dorofieieva
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: 'ROLE_USER'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: 'ROLE_ADMIN'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: 'ROLE_MARKET_ADMIN'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: 'ROLE_AUCTION_ADMIN'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: 'ROLE_COPYWRITER'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: role
+                  value: 'ROLE_EXPERT'
