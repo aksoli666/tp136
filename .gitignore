@@ -1,33 +1,39 @@
-HELP.md
+# Build directories
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+build/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Maven wrapper
+.mvn/
+!mvn/wrapper/maven-wrapper.jar
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IDE-specific files
+.idea/
 *.iml
 *.ipr
+*.iws
+!/.idea/codeStyles/
+!/.idea/runConfigurations/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+.classpath
+.project
+.settings/
+.sts4-cache
 
-### VS Code ###
+### Environment files ###
+.env
+# Allow .env.template for sharing required variables
+!.env.template
+
+# Visual Studio Code
 .vscode/
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# System files
+*.DS_Store
+Thumbs.db
+*.log
+
+# Documentation
+HELP.md
