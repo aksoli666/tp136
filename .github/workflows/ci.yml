@@ -23,16 +23,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Export Environment Variables
-        run: |
-          echo "MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}" >> $GITHUB_ENV
-          echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> $GITHUB_ENV
-          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
-          echo "JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}" >> $GITHUB_ENV
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-          echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> $GITHUB_ENV
-          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
-
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
         env:
