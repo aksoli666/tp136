@@ -41,7 +41,6 @@ public class User implements UserDetails {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    @Column(nullable = false)
     private String shippingAddress;
     @Column(nullable = false)
     private String password;

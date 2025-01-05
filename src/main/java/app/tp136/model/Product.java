@@ -10,6 +10,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
@@ -42,6 +43,8 @@ public class Product {
     private BigDecimal price;
     @Column(nullable = false)
     private int inventory;
+    @Column(nullable = false)
+    private LocalDate publicationDate;
     @ManyToMany
     @JoinTable(
             name = "products_categories",
@@ -68,7 +71,9 @@ public class Product {
                 .append(country, that.country)
                 .append(year, that.year)
                 .append(material, that.material)
-                .append(price, that.price);
+                .append(price, that.price)
+                .append(inventory, that.inventory)
+                .append(publicationDate, that.publicationDate);
         return eb.isEquals();
     }
 
@@ -80,7 +85,9 @@ public class Product {
                 .append(country)
                 .append(year)
                 .append(material)
-                .append(price);
+                .append(price)
+                .append(inventory)
+                .append(publicationDate);
         return hcb.toHashCode();
     }
 }

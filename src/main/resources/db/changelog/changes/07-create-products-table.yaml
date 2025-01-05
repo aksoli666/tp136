@@ -38,6 +38,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: publication_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
                   name: inventory
                   type: int
                   constraints:

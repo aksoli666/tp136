@@ -70,6 +70,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductDto> getAllSortedByNameAsc(Pageable pageable) {
+        return productMapper.toDtoPage(
+                productRepository.findAllSortedByNameAscending(pageable));
+    }
+
+    @Override
+    public Page<ProductDto> getAllSortedByNameDesc(Pageable pageable) {
+        return productMapper.toDtoPage(
+                productRepository.findAllSortedByNameDescending(pageable));
+    }
+
+    @Override
+    public Page<ProductDto> getEarliestPublicationDate(Pageable pageable) {
+        return productMapper.toDtoPage(
+                productRepository.findAllSortedByEarliestPublicationDate(pageable));
+    }
+
+    @Override
+    public Page<ProductDto> getLatestPublicationDate(Pageable pageable) {
+        return productMapper.toDtoPage(
+                productRepository.findAllSortedByLatestPublicationDate(pageable));
+    }
+
+    @Override
     public ProductDto update(Long id, UpdateProductRequestDto dto) {
         Product product = productMapper.toProduct(get(id));
         fetchCategoriesAndSetToProduct(dto.getCategoryIds(), product);

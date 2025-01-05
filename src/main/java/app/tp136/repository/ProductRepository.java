@@ -29,4 +29,28 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             + "JOIN FETCH p.categories c "
             + "WHERE c.id = :categoryId AND p.isDeleted = false AND c.isDeleted = false")
     Page<Product> findAllByCategoryId(Long categoryId, Pageable pageable);
+
+    @Query("SELECT p FROM Product p "
+            + "JOIN FETCH p.categories c "
+            + "WHERE p.isDeleted = false AND c.isDeleted = false "
+            + "ORDER BY p.name ASC")
+    Page<Product> findAllSortedByNameAscending(Pageable pageable);
+
+    @Query("SELECT p FROM Product p "
+            + "JOIN FETCH p.categories c "
+            + "WHERE p.isDeleted = false AND c.isDeleted = false "
+            + "ORDER BY p.name DESC")
+    Page<Product> findAllSortedByNameDescending(Pageable pageable);
+
+    @Query("SELECT p FROM Product p "
+            + "JOIN FETCH p.categories c "
+            + "WHERE p.isDeleted = false AND c.isDeleted = false "
+            + "ORDER BY p.publicationDate ASC")
+    Page<Product> findAllSortedByEarliestPublicationDate(Pageable pageable);
+
+    @Query("SELECT p FROM Product p "
+            + "JOIN FETCH p.categories c "
+            + "WHERE p.isDeleted = false AND c.isDeleted = false "
+            + "ORDER BY p.publicationDate DESC")
+    Page<Product> findAllSortedByLatestPublicationDate(Pageable pageable);
 }
