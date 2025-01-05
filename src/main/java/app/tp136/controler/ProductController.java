@@ -99,6 +99,46 @@ public class ProductController {
     }
 
     @Operation(
+            summary = "Get products by alphabetical order (ascending)",
+            description = "Retrieves products sorted by name in ascending alphabetical order."
+    )
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/category/name/ascending")
+    public Page<ProductDto> getAllSortedByNameAsc(Pageable pageable) {
+        return productService.getAllSortedByNameAsc(pageable);
+    }
+
+    @Operation(
+            summary = "Get products by reverse alphabetical order (descending)",
+            description = "Retrieves products sorted by name in descending alphabetical order."
+    )
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/category/name/descending")
+    public Page<ProductDto> getAllSortedByNameDesc(Pageable pageable) {
+        return productService.getAllSortedByNameDesc(pageable);
+    }
+
+    @Operation(
+            summary = "Get products by earliest publication date",
+            description = "Retrieves products sorted by the earliest publication date."
+    )
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/category/earliest")
+    public Page<ProductDto> getEarliestPublicationDate(Pageable pageable) {
+        return productService.getEarliestPublicationDate(pageable);
+    }
+
+    @Operation(
+            summary = "Get products by latest publication date",
+            description = "Retrieves products sorted by the latest publication date."
+    )
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/category/latest")
+    public Page<ProductDto> getLatestPublicationDate(Pageable pageable) {
+        return productService.getLatestPublicationDate(pageable);
+    }
+
+    @Operation(
             summary = "Update a product",
             description = "Updates the details of an existing product."
     )
@@ -120,4 +160,3 @@ public class ProductController {
         productService.delete(id);
     }
 }
-

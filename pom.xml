@@ -65,6 +65,13 @@
             <version>${jwt.version}</version>
         </dependency>
 
+        <!-- OAuth2 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <version>3.3.4</version>
+        </dependency>
+
         <!-- Database -->
         <dependency>
             <groupId>mysql</groupId>

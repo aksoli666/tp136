@@ -22,6 +22,14 @@ public interface ProductService {
 
     Page<ProductWithoutCategoryDto> getByCategoryId(Long categoryId, Pageable pageable);
 
+    Page<ProductDto> getAllSortedByNameAsc(Pageable pageable);
+
+    Page<ProductDto> getAllSortedByNameDesc(Pageable pageable);
+
+    Page<ProductDto> getEarliestPublicationDate(Pageable pageable);
+
+    Page<ProductDto> getLatestPublicationDate(Pageable pageable);
+
     ProductDto update(Long id, UpdateProductRequestDto dto);
 
     void delete(Long id);
