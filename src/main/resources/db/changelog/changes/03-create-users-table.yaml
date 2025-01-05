@@ -43,8 +43,6 @@ databaseChangeLog:
               - column:
                   name: shipping_address
                   type: varchar(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: auction_number
                   type: varchar(255)

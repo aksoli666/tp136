@@ -15,18 +15,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
     private final SecretKey secret;
+
     @Value("${jwt.expiration}")
     private long expiration;
 
     public JwtUtil(@Value("${jwt.secret}") String secretString) {
-        secret = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
+        if (secretString == null || secretString.getBytes(StandardCharsets.UTF_8).length < 32) {
+            throw new IllegalArgumentException("JWT secret key must be at least 256 bits.");
+        }
+        this.secret = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(String userName) {
         return Jwts.builder()
-                .subject(userName)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .setSubject(userName)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(secret)
                 .compact();
     }
@@ -34,12 +38,12 @@ public class JwtUtil {
     public boolean isValidToken(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser()
-                    .verifyWith(secret)
+                    .setSigningKey(secret)
                     .build()
-                    .parseSignedClaims(token);
-            return !claimsJws.getPayload().getExpiration().before(new Date());
+                    .parseClaimsJws(token);
+            return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtException("Invalid JWT");
+            throw new JwtException("Invalid JWT", e);
         }
     }
 
@@ -49,11 +53,10 @@ public class JwtUtil {
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parser()
-                .verifyWith(secret)
+                .setSigningKey(secret)
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseClaimsJws(token)
+                .getBody();
         return claimsResolver.apply(claims);
     }
 }
-

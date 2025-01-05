@@ -39,7 +39,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: publication_date
-                  type: timestamp
+                  type: date
                   constraints:
                     nullable: false
               - column:
