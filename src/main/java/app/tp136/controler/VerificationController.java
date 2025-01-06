@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Verification", description = "Endpoints for verifying user accounts")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth/verification")
+@RequestMapping("/verification")
 public class VerificationController {
     private final EmailService emailService;
     private final EmailVerificationService emailVerificationService;
@@ -41,7 +41,6 @@ public class VerificationController {
             description = "Sends a verification code to the specified email address "
                     + "to verify the user's email during the reset password process."
     )
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/send-code-rest-pass")
     public ResponseEntity<String> sendVerificationCodeToEmailForResetPassword(
             @RequestParam("to_email")
@@ -72,13 +71,12 @@ public class VerificationController {
                     + "the provided verification code. "
                     + "If the code is valid, the user can reset password."
     )
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/verify-code/reset")
     public ResponseEntity<String> verifyCodeForResetPassword(
-            Authentication authentication,
+            @RequestParam @NotBlank String email,
             @RequestParam("verification_code") @NotBlank String verificationCode) {
         String message = emailVerificationService
-                .verifyCodeForResetPassword(authentication, verificationCode);
+                .verifyCodeForResetPassword(email, verificationCode);
         return ResponseEntity.ok(message);
     }
 }

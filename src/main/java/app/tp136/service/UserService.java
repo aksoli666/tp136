@@ -17,7 +17,7 @@ public interface UserService {
 
     void updatePassword(Authentication authentication, UserUpdatePasswordRequestDto dto);
 
-    void resetPassword(Authentication authentication, UserResetPasswordRequestDto dto);
+    void resetPassword(String email, UserResetPasswordRequestDto dto);
 
     void deleteProfile(Authentication authentication);
 }

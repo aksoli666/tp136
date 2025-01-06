@@ -51,6 +51,7 @@ public class ProductController {
             summary = "Retrieve a product by ID",
             description = "Fetches a product by its unique ID."
     )
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
     public ProductDto getProduct(@PathVariable @Positive Long id) {
         return productService.get(id);
@@ -60,6 +61,7 @@ public class ProductController {
             summary = "Get products by price range",
             description = "Fetches products within the specified price range."
     )
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/by-price")
     public Page<ProductDto> getProductByPriceBetween(
             @RequestParam @DecimalMin("0.0") BigDecimal low,
@@ -81,8 +83,9 @@ public class ProductController {
             summary = "Search products",
             description = "Searches for products based on specified search criteria."
     )
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/search")
-    public Page<ProductDto> search(@RequestBody @Valid ProductSearchParamsDto dto,
+    public Page<ProductDto> search(ProductSearchParamsDto dto,
                                    Pageable pageable) {
         return productService.search(dto, pageable);
     }

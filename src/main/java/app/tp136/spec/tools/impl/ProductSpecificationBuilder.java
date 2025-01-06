@@ -36,10 +36,10 @@ public class ProductSpecificationBuilder implements SpecificationBuilder<Product
                     .getProvider(NAME_KEY)
                     .getSpecification(searchParams.name()));
         }
-        if (searchParams.year() != null && searchParams.year().length > 0) {
+        if (searchParams.description() != null && searchParams.description().length > 0) {
             defaultSpec = defaultSpec.and(specProviderManager
                     .getProvider(DESCRIPTION_KEY)
-                    .getSpecification(searchParams.partFromDescription()));
+                    .getSpecification(searchParams.description()));
         }
         if (searchParams.year() != null && searchParams.year().length > 0) {
             defaultSpec = defaultSpec.and(specProviderManager
