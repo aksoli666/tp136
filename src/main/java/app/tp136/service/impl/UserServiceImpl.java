@@ -48,7 +48,8 @@ public class UserServiceImpl implements UserService {
     public UserDto getProfile(Authentication authentication) {
         User user = userDetailsService.getUserFromAuthentication(authentication);
         UserDto dto = userMapper.toUserDto(user);
-        UserVerification userVerification = userVerificationRepository.findByEmail(user.getEmail())
+        UserVerification userVerification = userVerificationRepository
+                .findByEmailAndType(user.getEmail(), UserVerification.Type.VERIFICATION)
                 .orElseThrow(() -> new EntityNotFoundException("Verification not found"));
         dto.setVerified(userVerification.isVerified());
         return dto;
@@ -70,9 +71,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void resetPassword(Authentication authentication, UserResetPasswordRequestDto dto) {
-        User user = userDetailsService.getUserFromAuthentication(authentication);
-        validateResetPassword(user.getEmail());
+    public void resetPassword(String email, UserResetPasswordRequestDto dto) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        validateResetPassword(email);
         saveNewPassword(user, dto.getConfirmPassword());
     }
 

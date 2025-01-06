@@ -4,6 +4,7 @@ import app.tp136.exception.EmailVerificationException;
 import app.tp136.exception.EntityNotFoundException;
 import app.tp136.model.User;
 import app.tp136.model.UserVerification;
+import app.tp136.repository.UserRepository;
 import app.tp136.repository.UserVerificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class EmailVerificationService {
     private final UserVerificationRepository verificationRepository;
     private final CustomUserDetailsService customUserDetailsService;
+    private final UserRepository userRepository;
 
     public String verifyCodeForRegistration(
             Authentication authentication, String verificationCode) {
@@ -30,9 +32,9 @@ public class EmailVerificationService {
     }
 
     public String verifyCodeForResetPassword(
-            Authentication authentication, String verificationCode) {
-        User user = customUserDetailsService
-                .getUserFromAuthentication(authentication);
+            String email, String verificationCode) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         UserVerification userVerification = verificationRepository
                 .findByEmailAndType(user.getEmail(), UserVerification.Type.RESET)
                 .orElseThrow(() -> new EntityNotFoundException("Verification not found"));

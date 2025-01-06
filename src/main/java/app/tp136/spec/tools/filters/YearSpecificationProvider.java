@@ -4,7 +4,9 @@ import app.tp136.model.Product;
 import app.tp136.spec.tools.SpecificationProvider;
 import java.util.Arrays;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
+@Component
 public class YearSpecificationProvider implements SpecificationProvider<Product> {
     private static final String YEAR_KEY = "year";
 

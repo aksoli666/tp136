@@ -9,6 +9,7 @@ import app.tp136.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +33,7 @@ public class UserController {
             summary = "Assign a new role to a user",
             description = "Assigns a new role (ROLE_MANAGER, ROLE_CUSTOMER) to the user."
     )
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN')")
     @PutMapping("/upd-role")
     public void updateRole(Authentication authentication,
                            @RequestParam("role_name") String roleName) {
@@ -76,11 +77,10 @@ public class UserController {
             summary = "Reset the authenticated user's password",
             description = "Allows the authenticated user to reset their password securely."
     )
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/me/reset-pass")
-    public void resetPassword(Authentication authentication,
+    public void resetPassword(@RequestParam @NotBlank String email,
                               @Valid @RequestBody UserResetPasswordRequestDto dto) {
-        userService.resetPassword(authentication, dto);
+        userService.resetPassword(email, dto);
     }
 
     @Operation(
