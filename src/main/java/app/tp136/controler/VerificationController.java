@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,6 @@ public class VerificationController {
             description = "Sends a verification code to the specified email address "
                     + "to verify the user's email during the registration process."
     )
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/send-code-registration")
     public ResponseEntity<String> sendVerificationCodeToEmailForRegistration(
             @RequestParam("to_email")
@@ -55,7 +53,6 @@ public class VerificationController {
                     + "the provided verification code. "
                     + "If the code is valid, the user's account will be marked as verified."
     )
-    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/verify-code/reg")
     public ResponseEntity<String> verifyCodeForRegistration(Authentication authentication,
                              @RequestParam("verification_code") @NotBlank
