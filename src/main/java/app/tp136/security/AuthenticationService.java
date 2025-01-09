@@ -11,6 +11,7 @@ import app.tp136.model.Role;
 import app.tp136.model.User;
 import app.tp136.repository.RoleRepository;
 import app.tp136.repository.UserRepository;
+import app.tp136.service.ShoppingCartService;
 import app.tp136.util.AuctionNumberGenerator;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final ShoppingCartService shoppingCartService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AuctionNumberGenerator auctionNumberGenerator;
@@ -43,6 +45,7 @@ public class AuthenticationService {
         user.setAuctionNumber(auctionNumberGenerator.generateAuctionNumber());
 
         userRepository.save(user);
+        shoppingCartService.createShoppingCart(user);
         return userMapper.toUserDto(user);
     }
 
