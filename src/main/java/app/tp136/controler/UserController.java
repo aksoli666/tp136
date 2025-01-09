@@ -33,7 +33,7 @@ public class UserController {
             summary = "Assign a new role to a user",
             description = "Assigns a new role (ROLE_MANAGER, ROLE_CUSTOMER) to the user."
     )
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN')")
     @PutMapping("/upd-role")
     public void updateRole(Authentication authentication,
                            @RequestParam("email") String email,
