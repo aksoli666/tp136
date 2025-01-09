@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ProductSpecificationBuilder productSpecificationBuilder;
 
+    @Transactional
     @Override
     public ProductDto save(CreateProductRequestDto dto) {
         Product product = productMapper.toProduct(dto);
@@ -38,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto get(Long id) {
         Product product = productRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Cannot find product with id: " + id));
+                () -> new EntityNotFoundException("Can`t find product. Id: " + id));
         return productMapper.toDto(product);
     }
 
@@ -93,6 +95,7 @@ public class ProductServiceImpl implements ProductService {
                 productRepository.findAllSortedByLatestPublicationDate(pageable));
     }
 
+    @Transactional
     @Override
     public ProductDto update(Long id, UpdateProductRequestDto dto) {
         Product product = productMapper.toProduct(get(id));
@@ -101,6 +104,7 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDto(productRepository.save(product));
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         productRepository.deleteById(id);

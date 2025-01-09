@@ -36,8 +36,9 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN')")
     @PutMapping("/upd-role")
     public void updateRole(Authentication authentication,
+                           @RequestParam("email") String email,
                            @RequestParam("role_name") String roleName) {
-        userService.updateRole(authentication, roleName);
+        userService.updateRole(authentication, email, roleName);
     }
 
     @Operation(

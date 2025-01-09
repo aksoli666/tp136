@@ -8,7 +8,7 @@ import app.tp136.dto.responce.UserUpdateResponseDto;
 import org.springframework.security.core.Authentication;
 
 public interface UserService {
-    void updateRole(Authentication authentication, String roleName);
+    void updateRole(Authentication authentication, String email, String roleName);
 
     UserDto getProfile(Authentication authentication);
 

@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,11 +53,11 @@ public class VerificationController {
                     + "If the code is valid, the user's account will be marked as verified."
     )
     @PostMapping("/verify-code/reg")
-    public ResponseEntity<String> verifyCodeForRegistration(Authentication authentication,
+    public ResponseEntity<String> verifyCodeForRegistration(@RequestParam @NotBlank String email,
                              @RequestParam("verification_code") @NotBlank
                              String verificationCode) {
         String message = emailVerificationService
-                .verifyCodeForRegistration(authentication, verificationCode);
+                .verifyCodeForRegistration(email, verificationCode);
         return ResponseEntity.ok(message);
     }
 

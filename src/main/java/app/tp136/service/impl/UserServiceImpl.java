@@ -17,11 +17,13 @@ import app.tp136.repository.UserRepository;
 import app.tp136.repository.UserVerificationRepository;
 import app.tp136.security.CustomUserDetailsService;
 import app.tp136.service.UserService;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,15 +35,19 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     @Override
-    public void updateRole(Authentication authentication, String roleName) {
-        User user = userDetailsService.getUserFromAuthentication(authentication);
+    public void updateRole(Authentication authentication, String email, String roleName) {
+        User admin = userDetailsService.getUserFromAuthentication(authentication);
+        User userForUpdate = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can`t find user for role update. Id: "));
         Role roleForUpdate = convertsToRole(roleName);
-        Set<Role> roles = user.getRoles();
+        Set<Role> roles = new HashSet<>(userForUpdate.getRoles());
         ensureNoDuplicateRole(roles, roleForUpdate);
         roles.add(roleForUpdate);
-        user.setRoles(roles);
-        userRepository.save(user);
+        userForUpdate.setRoles(roles);
+        userRepository.save(userForUpdate);
     }
 
     @Override
@@ -55,6 +61,7 @@ public class UserServiceImpl implements UserService {
         return dto;
     }
 
+    @Transactional
     @Override
     public UserUpdateResponseDto updateProfile(Authentication authentication,
                                                UserUpdateProfileRequestDto dto) {
@@ -63,6 +70,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUpdateDto(userRepository.save(user));
     }
 
+    @Transactional
     @Override
     public void updatePassword(Authentication authentication, UserUpdatePasswordRequestDto dto) {
         User user = userDetailsService.getUserFromAuthentication(authentication);
@@ -70,14 +78,16 @@ public class UserServiceImpl implements UserService {
         saveNewPassword(user, dto.getConfirmPassword());
     }
 
+    @Transactional
     @Override
     public void resetPassword(String email, UserResetPasswordRequestDto dto) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Can`t find user. Email: " + email));
         validateResetPassword(email);
         saveNewPassword(user, dto.getConfirmPassword());
     }
 
+    @Transactional
     @Override
     public void deleteProfile(Authentication authentication) {
         User user = userDetailsService.getUserFromAuthentication(authentication);
@@ -88,7 +98,8 @@ public class UserServiceImpl implements UserService {
         try {
             Role.RoleName value = Role.RoleName.valueOf(roleName.toUpperCase());
             return roleRepository.findByRole(value)
-                    .orElseThrow(() -> new EntityNotFoundException("Role not found: " + roleName));
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Can`t find role. Name: : " + roleName));
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid role name: " + roleName);
         }
