@@ -9,24 +9,24 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PartFromDescrSpecificationProvider implements SpecificationProvider<Product> {
-    private static final String DESCRIPTION_KEY = "description";
+public class PartFromDescrEngSpecificationProvider implements SpecificationProvider<Product> {
+    private static final String DESCRIPTION_KEY_ENG = "descriptionEng";
 
     @Override
     public String getKey() {
-        return DESCRIPTION_KEY;
+        return DESCRIPTION_KEY_ENG;
     }
 
     @Override
-    public Specification<Product> getSpecification(String[] descrs) {
-        if (descrs == null || descrs.length == 0 || descrs[0].trim().isEmpty()) {
+    public Specification<Product> getSpecification(String[] descrsEng) {
+        if (descrsEng == null || descrsEng.length == 0 || descrsEng[0].trim().isEmpty()) {
             return (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
         }
 
         return (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = Arrays.stream(descrs)
+            List<Predicate> predicates = Arrays.stream(descrsEng)
                     .map(descr -> criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get(DESCRIPTION_KEY)),
+                            criteriaBuilder.lower(root.get(DESCRIPTION_KEY_ENG)),
                             "%" + descr.trim().toLowerCase() + "%"
                     ))
                     .toList();

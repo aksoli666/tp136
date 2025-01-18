@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-cash-payments-table
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: cash_payments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_cash_payments_to_payments
+                    references: payments(id)

@@ -27,3 +27,21 @@ databaseChangeLog:
       file: db/changelog/changes/13-create-order-items-table.yaml
   - include:
       file: db/changelog/changes/14-create-articles-table.yaml
+  - include:
+      file: db/changelog/changes/15-update-users-table.yaml
+  - include:
+      file: db/changelog/changes/16-update-categories-table.yaml
+  - include:
+      file: db/changelog/changes/17-update-products-table.yaml
+  - include:
+      file: db/changelog/changes/18-update-orders-table.yaml
+  - include:
+      file: db/changelog/changes/19-update-articles-table.yaml
+  - include:
+      file: db/changelog/changes/20-create-payments-table.yaml
+  - include:
+      file: db/changelog/changes/21-create-transfer-payments-table.yaml
+  - include:
+      file: db/changelog/changes/22-create-cash-payments-table.yaml
+  - include:
+      file: db/changelog/changes/23-drop-carts-items.yaml

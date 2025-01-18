@@ -72,15 +72,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDto> getAllSortedByNameAsc(Pageable pageable) {
+    public Page<ProductDto> getAllSortedByNameAscUa(Pageable pageable) {
         return productMapper.toDtoPage(
-                productRepository.findAllSortedByNameAscending(pageable));
+                productRepository.findAllSortedByNameAscendingUa(pageable));
     }
 
     @Override
-    public Page<ProductDto> getAllSortedByNameDesc(Pageable pageable) {
+    public Page<ProductDto> getAllSortedByNameAscEng(Pageable pageable) {
         return productMapper.toDtoPage(
-                productRepository.findAllSortedByNameDescending(pageable));
+                productRepository.findAllSortedByNameAscendingEng(pageable));
+    }
+
+    @Override
+    public Page<ProductDto> getAllSortedByNameDescUa(Pageable pageable) {
+        return productMapper.toDtoPage(
+                productRepository.findAllSortedByNameDescendingUa(pageable));
+    }
+
+    @Override
+    public Page<ProductDto> getAllSortedByNameDescEng(Pageable pageable) {
+        return productMapper.toDtoPage(
+                productRepository.findAllSortedByNameDescendingEng(pageable));
     }
 
     @Override
@@ -98,7 +110,8 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public ProductDto update(Long id, UpdateProductRequestDto dto) {
-        Product product = productMapper.toProduct(get(id));
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can`t find product. Id: " + id));
         fetchCategoriesAndSetToProduct(dto.getCategoryIds(), product);
         productMapper.update(dto, product);
         return productMapper.toDto(productRepository.save(product));

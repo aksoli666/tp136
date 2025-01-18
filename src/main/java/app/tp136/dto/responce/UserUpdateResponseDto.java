@@ -5,7 +5,7 @@ public record UserUpdateResponseDto(
         String phoneNumber,
         String firstName,
         String lastName,
-        String shippingAddress,
+        String country,
         String auctionNumber
 ) {
 }

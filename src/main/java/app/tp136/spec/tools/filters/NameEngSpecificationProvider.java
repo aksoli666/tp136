@@ -9,24 +9,24 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NameSpecificationProvider implements SpecificationProvider<Product> {
-    private static final String NAME_KEY = "name";
+public class NameEngSpecificationProvider implements SpecificationProvider<Product> {
+    private static final String NAME_KEY_ENG = "nameEng";
 
     @Override
     public String getKey() {
-        return NAME_KEY;
+        return NAME_KEY_ENG;
     }
 
     @Override
-    public Specification<Product> getSpecification(String[] names) {
-        if (names == null || names.length == 0 || names[0].trim().isEmpty()) {
+    public Specification<Product> getSpecification(String[] namesEng) {
+        if (namesEng == null || namesEng.length == 0 || namesEng[0].trim().isEmpty()) {
             return (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
         }
 
         return (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = Arrays.stream(names)
+            List<Predicate> predicates = Arrays.stream(namesEng)
                     .map(name -> criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get(NAME_KEY)),
+                            criteriaBuilder.lower(root.get(NAME_KEY_ENG)),
                             "%" + name.trim().toLowerCase() + "%"
                     ))
                     .toList();

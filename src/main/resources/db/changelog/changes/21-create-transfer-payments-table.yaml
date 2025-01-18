@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-transfer-payments-table
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: transfer_payments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    foreignKeyName: fk_transfer_payments_to_payments
+                    references: payments(id)
+              - column:
+                  name: international
+                  type: tinyint(1)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: confirmation
+                  type: longtext
+                  constraints:
+                    nullable: false

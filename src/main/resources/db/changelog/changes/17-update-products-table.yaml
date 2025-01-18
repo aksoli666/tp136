@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-products-table
+      author: dorofieieva
+      changes:
+        - dropColumn:
+            columnName: name
+            tableName: products
+        - dropColumn:
+            columnName: description
+            tableName: products
+        - dropColumn:
+            columnName: country
+            tableName: products
+        - dropColumn:
+            columnName: material
+            tableName: products
+        - addColumn:
+            tableName: products
+            columns:
+              - column:
+                  name: name_ua
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name_eng
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description_ua
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description_eng
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country_ua
+                  type: varchar(255)
+              - column:
+                  name: country_eng
+                  type: varchar(255)
+              - column:
+                  name: material_ua
+                  type: varchar(255)
+              - column:
+                  name: material_eng
+                  type: varchar(255)

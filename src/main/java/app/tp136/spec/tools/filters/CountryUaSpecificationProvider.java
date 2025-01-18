@@ -7,17 +7,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MaterialSpecificationProvider implements SpecificationProvider<Product> {
-    private static final String MATERIAL_KEY = "material";
+public class CountryUaSpecificationProvider implements SpecificationProvider<Product> {
+    private static final String COUNTRY_KEY_UA = "countryUa";
 
     @Override
     public String getKey() {
-        return MATERIAL_KEY;
+        return COUNTRY_KEY_UA;
     }
 
     @Override
-    public Specification<Product> getSpecification(String[] materials) {
+    public Specification<Product> getSpecification(String[] countriesUa) {
         return (root, query, criteriaBuilder)
-                -> root.get(MATERIAL_KEY).in(Arrays.asList(materials));
+                -> root.get(COUNTRY_KEY_UA).in(Arrays.asList(countriesUa));
     }
 }

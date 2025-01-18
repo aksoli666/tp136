@@ -11,35 +11,59 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ProductSpecificationBuilder implements SpecificationBuilder<Product> {
-    private static final String COUNTRY_KEY = "country";
-    private static final String MATERIAL_KEY = "material";
-    private static final String NAME_KEY = "name";
-    private static final String DESCRIPTION_KEY = "description";
+    private static final String COUNTRY_KEY_UA = "countryUa";
+    private static final String COUNTRY_KEY_ENG = "countryEng";
+    private static final String MATERIAL_KEY_UA = "materialUa";
+    private static final String MATERIAL_KEY_ENG = "materialEng";
+    private static final String NAME_KEY_UA = "nameUa";
+    private static final String NAME_KEY_ENG = "nameEng";
+    private static final String DESCRIPTION_KEY_UA = "descriptionUa";
+    private static final String DESCRIPTION_KEY_ENG = "descriptionEng";
     private static final String YEAR_KEY = "year";
     private final SpecificationProviderManager<Product> specProviderManager;
 
     @Override
     public Specification<Product> build(ProductSearchParamsDto searchParams) {
         Specification<Product> defaultSpec = Specification.where(null);
-        if (searchParams.country() != null && searchParams.country().length > 0) {
+        if (searchParams.countryUa() != null && searchParams.countryUa().length > 0) {
             defaultSpec = defaultSpec.and(specProviderManager
-                    .getProvider(COUNTRY_KEY)
-                    .getSpecification(searchParams.country()));
+                    .getProvider(COUNTRY_KEY_UA)
+                    .getSpecification(searchParams.countryUa()));
         }
-        if (searchParams.material() != null && searchParams.material().length > 0) {
+        if (searchParams.countryEng() != null && searchParams.countryEng().length > 0) {
             defaultSpec = defaultSpec.and(specProviderManager
-                    .getProvider(MATERIAL_KEY)
-                    .getSpecification(searchParams.material()));
+                    .getProvider(COUNTRY_KEY_ENG)
+                    .getSpecification(searchParams.countryEng()));
         }
-        if (searchParams.name() != null && searchParams.name().length > 0) {
+        if (searchParams.materialUa() != null && searchParams.materialUa().length > 0) {
             defaultSpec = defaultSpec.and(specProviderManager
-                    .getProvider(NAME_KEY)
-                    .getSpecification(searchParams.name()));
+                    .getProvider(MATERIAL_KEY_UA)
+                    .getSpecification(searchParams.materialUa()));
         }
-        if (searchParams.description() != null && searchParams.description().length > 0) {
+        if (searchParams.materialEng() != null && searchParams.materialEng().length > 0) {
             defaultSpec = defaultSpec.and(specProviderManager
-                    .getProvider(DESCRIPTION_KEY)
-                    .getSpecification(searchParams.description()));
+                    .getProvider(MATERIAL_KEY_ENG)
+                    .getSpecification(searchParams.materialEng()));
+        }
+        if (searchParams.nameUa() != null && searchParams.nameUa().length > 0) {
+            defaultSpec = defaultSpec.and(specProviderManager
+                    .getProvider(NAME_KEY_UA)
+                    .getSpecification(searchParams.nameUa()));
+        }
+        if (searchParams.nameEng() != null && searchParams.nameEng().length > 0) {
+            defaultSpec = defaultSpec.and(specProviderManager
+                    .getProvider(NAME_KEY_ENG)
+                    .getSpecification(searchParams.nameEng()));
+        }
+        if (searchParams.descriptionUa() != null && searchParams.descriptionUa().length > 0) {
+            defaultSpec = defaultSpec.and(specProviderManager
+                    .getProvider(DESCRIPTION_KEY_UA)
+                    .getSpecification(searchParams.descriptionUa()));
+        }
+        if (searchParams.descriptionEng() != null && searchParams.descriptionEng().length > 0) {
+            defaultSpec = defaultSpec.and(specProviderManager
+                    .getProvider(DESCRIPTION_KEY_ENG)
+                    .getSpecification(searchParams.descriptionEng()));
         }
         if (searchParams.year() != null && searchParams.year().length > 0) {
             defaultSpec = defaultSpec.and(specProviderManager

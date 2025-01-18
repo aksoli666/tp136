@@ -102,23 +102,43 @@ public class ProductController {
     }
 
     @Operation(
-            summary = "Get products by alphabetical order (ascending)",
-            description = "Retrieves products sorted by name in ascending alphabetical order."
+            summary = "Get products by alphabetical order (ascending, ua)",
+            description = "Retrieves products sorted by name(ua) in ascending alphabetical order."
     )
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/category/name/ascending")
-    public Page<ProductDto> getAllSortedByNameAsc(Pageable pageable) {
-        return productService.getAllSortedByNameAsc(pageable);
+    @GetMapping("/category/name-ua/ascending")
+    public Page<ProductDto> getAllSortedByNameAscUa(Pageable pageable) {
+        return productService.getAllSortedByNameAscUa(pageable);
     }
 
     @Operation(
-            summary = "Get products by reverse alphabetical order (descending)",
-            description = "Retrieves products sorted by name in descending alphabetical order."
+            summary = "Get products by alphabetical order (ascending, eng)",
+            description = "Retrieves products sorted by name(eng) in ascending alphabetical order."
     )
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/category/name/descending")
-    public Page<ProductDto> getAllSortedByNameDesc(Pageable pageable) {
-        return productService.getAllSortedByNameDesc(pageable);
+    @GetMapping("/category/name-eng/ascending")
+    public Page<ProductDto> getAllSortedByNameAscEng(Pageable pageable) {
+        return productService.getAllSortedByNameAscUa(pageable);
+    }
+
+    @Operation(
+            summary = "Get products by reverse alphabetical order (descending, ua)",
+            description = "Retrieves products sorted by name(ua) in descending alphabetical order."
+    )
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/category/name-ua/descending")
+    public Page<ProductDto> getAllSortedByNameDescUa(Pageable pageable) {
+        return productService.getAllSortedByNameDescUa(pageable);
+    }
+
+    @Operation(
+            summary = "Get products by reverse alphabetical order (descending, eng)",
+            description = "Retrieves products sorted by name(eng) in descending alphabetical order."
+    )
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/category/name-eng/descending")
+    public Page<ProductDto> getAllSortedByNameDescEng(Pageable pageable) {
+        return productService.getAllSortedByNameDescEng(pageable);
     }
 
     @Operation(

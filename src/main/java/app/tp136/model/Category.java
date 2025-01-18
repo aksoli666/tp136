@@ -24,8 +24,11 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
-    private String description;
+    private String nameUa;
+    @Column(nullable = false)
+    private String nameEng;
+    private String descriptionUa;
+    private String descriptionEng;
     @Column(nullable = false)
     private boolean isDeleted = false;
 
@@ -39,16 +42,20 @@ public class Category {
         }
         Category that = (Category) o;
         EqualsBuilder eb = new EqualsBuilder()
-                .append(name, that.name)
-                .append(description, that.description);
+                .append(nameUa, that.nameUa)
+                .append(nameEng, that.nameEng)
+                .append(descriptionUa, that.descriptionUa)
+                .append(descriptionEng, that.descriptionEng);
         return eb.isEquals();
     }
 
     @Override
     public int hashCode() {
         HashCodeBuilder hcb = new HashCodeBuilder()
-                .append(name)
-                .append(description);
+                .append(nameUa)
+                .append(nameEng)
+                .append(descriptionUa)
+                .append(descriptionEng);
         return hcb.toHashCode();
     }
 }

@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-categories-table
+      author: dorofieieva
+      changes:
+        - dropColumn:
+            columnName: name
+            tableName: categories
+        - dropColumn:
+            columnName: description
+            tableName: categories
+        - addColumn:
+            tableName: categories
+            columns:
+              - column:
+                  name: name_ua
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name_eng
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description_ua
+                  type: varchar(255)
+              - column:
+                  name: description_eng
+                  type: varchar(255)
