@@ -7,6 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Tp136Application {
     public static void main(String[] args) {
         SpringApplication.run(Tp136Application.class, args);
-
     }
 }
