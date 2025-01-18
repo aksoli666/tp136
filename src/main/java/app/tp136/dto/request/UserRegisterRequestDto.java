@@ -28,6 +28,8 @@ public class UserRegisterRequestDto {
     @NotBlank
     private String lastName;
     @NotBlank
+    private String country;
+    @NotBlank
     private String password;
     @NotBlank
     private String repeatPassword;
@@ -46,6 +48,7 @@ public class UserRegisterRequestDto {
                 .append(phoneNumber, that.phoneNumber)
                 .append(firstName, that.firstName)
                 .append(lastName, that.lastName)
+                .append(country, that.country)
                 .append(password, that.password)
                 .append(repeatPassword, that.repeatPassword);
         return eb.isEquals();
@@ -58,6 +61,7 @@ public class UserRegisterRequestDto {
                 .append(phoneNumber)
                 .append(firstName)
                 .append(lastName)
+                .append(country)
                 .append(password)
                 .append(repeatPassword);
         return hcb.toHashCode();

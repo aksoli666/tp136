@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-orders-table
+      author: dorofieieva
+      changes:
+        - dropColumn:
+            columnName: shipping_address
+            tableName: orders
+        - dropColumn:
+            columnName: status
+            tableName: orders
+        - addColumn:
+            tableName: orders
+            columns:
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: post
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: department
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

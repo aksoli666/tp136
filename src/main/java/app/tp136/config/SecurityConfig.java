@@ -52,6 +52,7 @@ public class SecurityConfig {
                                         "/verification/**",
                                         "/users/me/reset-pass",
                                         "/products",
+                                        "/articles",
                                         "/error",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**"
@@ -74,9 +75,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:8080",
-                "https://tp136-production.up.railway.app/"));
+        configuration.addAllowedOriginPattern("*");
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

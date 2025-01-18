@@ -33,12 +33,18 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String nameUa;
     @Column(nullable = false)
-    private String description;
-    private String country;
+    private String nameEng;
+    @Column(nullable = false)
+    private String descriptionUa;
+    @Column(nullable = false)
+    private String descriptionEng;
+    private String countryUa;
+    private String countryEng;
     private int year;
-    private String material;
+    private String materialUa;
+    private String materialEng;
     @Column(nullable = false)
     private BigDecimal price;
     @Column(nullable = false)
@@ -66,11 +72,15 @@ public class Product {
         }
         Product that = (Product) o;
         EqualsBuilder eb = new EqualsBuilder()
-                .append(name, that.name)
-                .append(description, that.description)
-                .append(country, that.country)
+                .append(nameUa, that.nameUa)
+                .append(nameEng, that.nameEng)
+                .append(descriptionUa, that.descriptionUa)
+                .append(descriptionEng, that.descriptionEng)
+                .append(countryUa, that.countryUa)
+                .append(countryEng, that.countryEng)
                 .append(year, that.year)
-                .append(material, that.material)
+                .append(materialUa, that.materialUa)
+                .append(materialEng, that.materialEng)
                 .append(price, that.price)
                 .append(inventory, that.inventory)
                 .append(publicationDate, that.publicationDate);
@@ -80,11 +90,15 @@ public class Product {
     @Override
     public int hashCode() {
         HashCodeBuilder hcb = new HashCodeBuilder()
-                .append(name)
-                .append(description)
-                .append(country)
+                .append(nameUa)
+                .append(nameEng)
+                .append(descriptionUa)
+                .append(descriptionEng)
+                .append(countryUa)
+                .append(countryEng)
                 .append(year)
-                .append(material)
+                .append(materialUa)
+                .append(materialEng)
                 .append(price)
                 .append(inventory)
                 .append(publicationDate);

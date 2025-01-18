@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-articles-table
+      author: dorofieieva
+      changes:
+        - dropColumn:
+            columnName: author
+            tableName: articles
+        - dropColumn:
+            columnName: title
+            tableName: articles
+        - dropColumn:
+            columnName: content
+            tableName: articles
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: author_ua
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_eng
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title_ua
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title_eng
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content_ua
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content_eng
+                  type: text
+                  constraints:
+                    nullable: false

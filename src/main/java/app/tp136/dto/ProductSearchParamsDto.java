@@ -1,9 +1,13 @@
 package app.tp136.dto;
 
 public record ProductSearchParamsDto(
-        String[] name,
-        String[] description,
-        String[] country,
+        String[] nameUa,
+        String[] nameEng,
+        String[] descriptionUa,
+        String[] descriptionEng,
+        String[] countryUa,
+        String[] countryEng,
         String[] year,
-        String[] material) {
+        String[] materialUa,
+        String[] materialEng) {
 }

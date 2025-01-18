@@ -10,9 +10,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Setter
 public class UpdateCategoryRequestDto {
     @NotBlank
-    private String name;
+    private String nameUa;
     @NotBlank
-    private String description;
+    private String nameEng;
+    @NotBlank
+    private String descriptionUa;
+    @NotBlank
+    private String descriptionEng;
 
     @Override
     public boolean equals(Object o) {
@@ -24,16 +28,20 @@ public class UpdateCategoryRequestDto {
         }
         UpdateCategoryRequestDto that = (UpdateCategoryRequestDto) o;
         EqualsBuilder eb = new EqualsBuilder()
-                .append(name, that.name)
-                .append(description, that.description);
+                .append(nameUa, that.nameUa)
+                .append(nameEng, that.nameEng)
+                .append(descriptionUa, that.descriptionUa)
+                .append(descriptionEng, that.descriptionEng);
         return eb.isEquals();
     }
 
     @Override
     public int hashCode() {
         HashCodeBuilder hcb = new HashCodeBuilder()
-                .append(name)
-                .append(description);
+                .append(nameUa)
+                .append(nameEng)
+                .append(descriptionUa)
+                .append(descriptionEng);
         return hcb.toHashCode();
     }
 }

@@ -22,9 +22,13 @@ public interface ProductService {
 
     Page<ProductWithoutCategoryDto> getByCategoryId(Long categoryId, Pageable pageable);
 
-    Page<ProductDto> getAllSortedByNameAsc(Pageable pageable);
+    Page<ProductDto> getAllSortedByNameAscUa(Pageable pageable);
 
-    Page<ProductDto> getAllSortedByNameDesc(Pageable pageable);
+    Page<ProductDto> getAllSortedByNameAscEng(Pageable pageable);
+
+    Page<ProductDto> getAllSortedByNameDescUa(Pageable pageable);
+
+    Page<ProductDto> getAllSortedByNameDescEng(Pageable pageable);
 
     Page<ProductDto> getEarliestPublicationDate(Pageable pageable);
 

@@ -9,7 +9,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Setter
 public class CartItemResponseDto {
     private Long productId;
-    private String productName;
+    private String productNameUa;
+    private String productNameEng;
     private int quantity;
 
     @Override
@@ -22,7 +23,8 @@ public class CartItemResponseDto {
         }
         CartItemResponseDto that = (CartItemResponseDto) o;
         EqualsBuilder eb = new EqualsBuilder()
-                .append(productName, that.productName)
+                .append(productNameUa, that.productNameUa)
+                .append(productNameEng, that.productNameEng)
                 .append(quantity, that.quantity);
         return eb.isEquals();
     }
@@ -30,7 +32,8 @@ public class CartItemResponseDto {
     @Override
     public int hashCode() {
         HashCodeBuilder hcb = new HashCodeBuilder()
-                .append(productName)
+                .append(productNameUa)
+                .append(productNameEng)
                 .append(quantity);
         return hcb.toHashCode();
     }

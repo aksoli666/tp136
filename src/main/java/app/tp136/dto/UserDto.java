@@ -12,6 +12,7 @@ public class UserDto {
     private String phoneNumber;
     private String firstName;
     private String lastName;
+    private String country;
     private String auctionNumber;
     private boolean isVerified;
 
@@ -29,6 +30,7 @@ public class UserDto {
                 .append(phoneNumber, that.phoneNumber)
                 .append(firstName, that.firstName)
                 .append(lastName, that.lastName)
+                .append(country, that.country)
                 .append(auctionNumber, that.auctionNumber);
         return eb.isEquals();
     }
@@ -40,6 +42,7 @@ public class UserDto {
                 .append(phoneNumber)
                 .append(firstName)
                 .append(lastName)
+                .append(country)
                 .append(auctionNumber);
         return hcb.toHashCode();
     }

@@ -41,7 +41,8 @@ public class User implements UserDetails {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    private String shippingAddress;
+    @Column(nullable = false)
+    private String country;
     @Column(nullable = false)
     private String password;
     @Column(unique = true, nullable = false)
@@ -103,7 +104,7 @@ public class User implements UserDetails {
                 .append(firstName, that.firstName)
                 .append(lastName, that.lastName)
                 .append(password, that.password)
-                .append(shippingAddress, that.shippingAddress)
+                .append(country, that.country)
                 .append(auctionNumber, that.auctionNumber);
         return eb.isEquals();
     }
@@ -116,7 +117,7 @@ public class User implements UserDetails {
                 .append(firstName)
                 .append(lastName)
                 .append(password)
-                .append(shippingAddress)
+                .append(country)
                 .append(auctionNumber);
         return hcb.toHashCode();
     }

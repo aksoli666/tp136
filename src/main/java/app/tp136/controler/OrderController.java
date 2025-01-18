@@ -1,7 +1,6 @@
 package app.tp136.controler;
 
 import app.tp136.dto.OrderItemDto;
-import app.tp136.dto.StatusDto;
 import app.tp136.dto.request.PlaceOrderRequestDto;
 import app.tp136.dto.responce.OrderResponseDto;
 import app.tp136.service.OrderService;
@@ -18,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,21 +44,10 @@ public class OrderController {
             description = "Fetches the authenticated user's order history."
     )
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping
-    public OrderResponseDto getOrderHistory(Authentication authentication) {
-        return orderService.getOrderHistory(authentication);
-    }
-
-    @Operation(
-            summary = "Update order status",
-            description = "Updates the status of an order with the given ID."
-    )
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN')")
-    @PutMapping("/{id}")
-    public OrderResponseDto updateOrderStatus(Authentication authentication,
-                                              @PathVariable @Positive Long id,
-                                              @RequestBody @Valid StatusDto statusDto) {
-        return orderService.updateOrderStatus(authentication, id, statusDto);
+    @GetMapping("/history/{orderId}")
+    public OrderResponseDto getOrderHistory(Authentication authentication,
+                                            @PathVariable @Positive Long orderId) {
+        return orderService.getOrderHistory(authentication, orderId);
     }
 
     @Operation(

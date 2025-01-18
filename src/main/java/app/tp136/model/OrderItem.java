@@ -12,6 +12,8 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -37,4 +39,27 @@ public class OrderItem {
     private BigDecimal price;
     @Column(nullable = false)
     private boolean isDeleted = false;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof OrderItem)) {
+            return false;
+        }
+        OrderItem that = (OrderItem) o;
+        EqualsBuilder eb = new EqualsBuilder()
+                .append(quantity, that.quantity)
+                .append(price, that.price);
+        return eb.isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder()
+                .append(quantity)
+                .append(price);
+        return hcb.toHashCode();
+    }
 }

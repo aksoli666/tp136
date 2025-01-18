@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-users-table
+      author: dorofieieva
+      changes:
+        - dropColumn:
+            columnName: shipping_address
+            tableName: users
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: country
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

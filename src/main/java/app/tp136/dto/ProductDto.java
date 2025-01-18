@@ -12,11 +12,15 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Getter
 @Setter
 public class ProductDto {
-    private String name;
-    private String description;
-    private String country;
+    private String nameUa;
+    private String nameEng;
+    private String descriptionUa;
+    private String descriptionEng;
+    private String countryUa;
+    private String countryEng;
     private int year;
-    private String material;
+    private String materialUa;
+    private String materialEng;
     private BigDecimal price;
     private int inventory;
     private LocalDate publicationDate;
@@ -32,11 +36,15 @@ public class ProductDto {
         }
         ProductDto that = (ProductDto) o;
         EqualsBuilder eb = new EqualsBuilder()
-                .append(name, that.name)
-                .append(description, that.description)
-                .append(country, that.country)
+                .append(nameUa, that.nameUa)
+                .append(nameEng, that.nameEng)
+                .append(descriptionUa, that.descriptionUa)
+                .append(descriptionEng, that.descriptionEng)
+                .append(countryUa, that.countryUa)
+                .append(countryEng, that.countryEng)
                 .append(year, that.year)
-                .append(material, that.material)
+                .append(materialUa, that.materialUa)
+                .append(materialEng, that.materialEng)
                 .append(price, that.price)
                 .append(inventory, that.inventory)
                 .append(publicationDate, that.publicationDate);
@@ -46,11 +54,15 @@ public class ProductDto {
     @Override
     public int hashCode() {
         HashCodeBuilder hcb = new HashCodeBuilder()
-                .append(name)
-                .append(description)
-                .append(country)
+                .append(nameUa)
+                .append(nameEng)
+                .append(descriptionUa)
+                .append(descriptionEng)
+                .append(countryUa)
+                .append(countryEng)
                 .append(year)
-                .append(material)
+                .append(materialUa)
+                .append(materialEng)
                 .append(price)
                 .append(inventory)
                 .append(publicationDate);

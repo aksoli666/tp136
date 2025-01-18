@@ -3,8 +3,6 @@ package app.tp136.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +17,8 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -36,14 +36,21 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
+    @Column(nullable = false)
+    private String country;
+    @Column(nullable = false)
+    private String city;
+    @Column(nullable = false)
+    private String post;
+    @Column(nullable = false)
+    private String department;
     @Column(nullable = false)
     private BigDecimal total;
     @Column(nullable = false)
     private LocalDateTime orderDate;
-    @Column(nullable = false)
-    private String shippingAddress;
     @OneToMany(
             mappedBy = "order",
             cascade = CascadeType.ALL,
@@ -53,9 +60,36 @@ public class Order {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
-    public enum Status {
-        COMPLETED,
-        PENDING,
-        DELIVERED
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Order)) {
+            return false;
+        }
+        Order that = (Order) o;
+        EqualsBuilder eb = new EqualsBuilder()
+                .append(firstName, that.firstName)
+                .append(lastName, that.lastName)
+                .append(country, that.country)
+                .append(city, that.city)
+                .append(post, that.post)
+                .append(department, that.department)
+                .append(total, that.total);
+        return eb.isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder()
+                .append(firstName)
+                .append(lastName)
+                .append(country)
+                .append(city)
+                .append(post)
+                .append(department)
+                .append(total);
+        return hcb.toHashCode();
     }
 }

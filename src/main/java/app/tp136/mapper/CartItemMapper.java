@@ -10,7 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper(config = MapperConfig.class)
 public interface CartItemMapper {
     @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "product.name", target = "productName")
+    @Mapping(source = "product.nameUa", target = "productNameUa")
+    @Mapping(source = "product.nameEng", target = "productNameEng")
     CartItemResponseDto toDto(CartItem cartItem);
 
     Set<CartItemResponseDto> toDtoSet(Set<CartItem> cartItems);

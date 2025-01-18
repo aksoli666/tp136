@@ -14,12 +14,18 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @Setter
 public class ProductWithoutCategoryDto {
     @NotBlank
-    private String name;
+    private String nameUa;
     @NotBlank
-    private String description;
-    private String country;
+    private String nameEng;
+    @NotBlank
+    private String descriptionUa;
+    @NotBlank
+    private String descriptionEng;
+    private String countryUa;
+    private String countryEng;
     private int year;
-    private String material;
+    private String materialUa;
+    private String materialEng;
     @NotNull
     @Positive
     private BigDecimal price;
@@ -38,11 +44,15 @@ public class ProductWithoutCategoryDto {
         }
         ProductWithoutCategoryDto that = (ProductWithoutCategoryDto) o;
         EqualsBuilder eb = new EqualsBuilder()
-                .append(name, that.name)
-                .append(description, that.description)
-                .append(country, that.country)
+                .append(nameUa, that.nameUa)
+                .append(nameEng, that.nameEng)
+                .append(descriptionUa, that.descriptionUa)
+                .append(descriptionEng, that.descriptionEng)
+                .append(countryUa, that.countryUa)
+                .append(countryEng, that.countryEng)
                 .append(year, that.year)
-                .append(material, that.material)
+                .append(materialUa, that.materialUa)
+                .append(materialEng, that.materialEng)
                 .append(price, that.price)
                 .append(inventory, that.inventory)
                 .append(publicationDate, that.publicationDate);
@@ -52,11 +62,15 @@ public class ProductWithoutCategoryDto {
     @Override
     public int hashCode() {
         HashCodeBuilder hcb = new HashCodeBuilder()
-                .append(name)
-                .append(description)
-                .append(country)
+                .append(nameUa)
+                .append(nameEng)
+                .append(descriptionUa)
+                .append(descriptionEng)
+                .append(countryUa)
+                .append(countryEng)
                 .append(year)
-                .append(material)
+                .append(materialUa)
+                .append(materialEng)
                 .append(price)
                 .append(inventory)
                 .append(publicationDate);

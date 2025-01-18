@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-carts-items-table
+      author: dorofieieva
+      changes:
+        - dropTable:
+            tableName: carts_items

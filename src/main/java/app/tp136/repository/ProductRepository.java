@@ -33,14 +33,26 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p "
             + "JOIN FETCH p.categories c "
             + "WHERE p.isDeleted = false AND c.isDeleted = false "
-            + "ORDER BY p.name ASC")
-    Page<Product> findAllSortedByNameAscending(Pageable pageable);
+            + "ORDER BY p.nameUa ASC")
+    Page<Product> findAllSortedByNameAscendingUa(Pageable pageable);
 
     @Query("SELECT p FROM Product p "
             + "JOIN FETCH p.categories c "
             + "WHERE p.isDeleted = false AND c.isDeleted = false "
-            + "ORDER BY p.name DESC")
-    Page<Product> findAllSortedByNameDescending(Pageable pageable);
+            + "ORDER BY p.nameEng ASC")
+    Page<Product> findAllSortedByNameAscendingEng(Pageable pageable);
+
+    @Query("SELECT p FROM Product p "
+            + "JOIN FETCH p.categories c "
+            + "WHERE p.isDeleted = false AND c.isDeleted = false "
+            + "ORDER BY p.nameUa DESC")
+    Page<Product> findAllSortedByNameDescendingUa(Pageable pageable);
+
+    @Query("SELECT p FROM Product p "
+            + "JOIN FETCH p.categories c "
+            + "WHERE p.isDeleted = false AND c.isDeleted = false "
+            + "ORDER BY p.nameEng DESC")
+    Page<Product> findAllSortedByNameDescendingEng(Pageable pageable);
 
     @Query("SELECT p FROM Product p "
             + "JOIN FETCH p.categories c "

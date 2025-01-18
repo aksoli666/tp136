@@ -25,11 +25,17 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String title;
+    private String titleUa;
     @Column(nullable = false)
-    private String author;
+    private String titleEng;
     @Column(nullable = false)
-    private String content;
+    private String authorUa;
+    @Column(nullable = false)
+    private String authorEng;
+    @Column(nullable = false)
+    private String contentUa;
+    @Column(nullable = false)
+    private String contentEng;
     @Column(nullable = false)
     private LocalDateTime published;
     @Column(nullable = false)
@@ -45,9 +51,11 @@ public class Article {
         }
         Article that = (Article) o;
         EqualsBuilder eb = new EqualsBuilder()
-                .append(title, that.title)
-                .append(author, that.author)
-                .append(content, that.content)
+                .append(titleUa, that.titleUa)
+                .append(authorUa, that.authorUa)
+                .append(authorEng, that.authorEng)
+                .append(contentUa, that.contentUa)
+                .append(contentEng, that.contentEng)
                 .append(published, that.published);
         return eb.isEquals();
     }
@@ -55,9 +63,12 @@ public class Article {
     @Override
     public int hashCode() {
         HashCodeBuilder hcb = new HashCodeBuilder()
-                .append(title)
-                .append(author)
-                .append(content)
+                .append(titleUa)
+                .append(titleEng)
+                .append(authorUa)
+                .append(authorEng)
+                .append(contentUa)
+                .append(contentEng)
                 .append(published);
         return hcb.toHashCode();
     }

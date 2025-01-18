@@ -1,7 +1,6 @@
 package app.tp136.service.impl;
 
 import app.tp136.dto.OrderItemDto;
-import app.tp136.dto.StatusDto;
 import app.tp136.dto.request.PlaceOrderRequestDto;
 import app.tp136.dto.responce.CartItemResponseDto;
 import app.tp136.dto.responce.OrderResponseDto;
@@ -57,24 +56,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponseDto getOrderHistory(Authentication authentication) {
+    public OrderResponseDto getOrderHistory(Authentication authentication, Long orderId) {
         Long userId = userDetailsService.getUserIdFromAuthentication(authentication);
         return orderMapper.toDto(
-                orderRepository.findOrderByUserId(userId)
+                orderRepository.findOrderByIdAndUserId(orderId, userId)
                         .orElseThrow(() -> new EntityNotFoundException("Can`t find order")));
-    }
-
-    @Transactional
-    @Override
-    public OrderResponseDto updateOrderStatus(Authentication authentication,
-                                              Long id, StatusDto dto) {
-        User admin = userDetailsService.getUserFromAuthentication(authentication);
-        Order order = orderRepository.findOrderById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can`t find order. Id: "
-                        + id));
-        order.setStatus(Order.Status.valueOf(dto.status().toUpperCase()));
-        orderRepository.save(order);
-        return orderMapper.toDto(order);
     }
 
     @Override
@@ -91,21 +77,25 @@ public class OrderServiceImpl implements OrderService {
     public OrderItemDto getOrderItem(Authentication authentication, Long orderId, Long itemId) {
         Long userId = userDetailsService.getUserIdFromAuthentication(authentication);
         List<OrderItem> orderItems = orderItemRepository
-                .findByOrderIdAndOrderUserId(userId, orderId);
+                .findByOrderIdAndOrderUserId(orderId, userId);
         OrderItem orderItem = orderItems.stream()
                 .filter(item -> item.getId().equals(itemId))
                 .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("Can't find order item. Id "
-                        + itemId));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find order item. Id " + itemId));
         return orderItemMapper.toDto(orderItem);
     }
 
-    private Order createOrder(User user, PlaceOrderRequestDto requestDto) {
+    private Order createOrder(User user, PlaceOrderRequestDto dto) {
         Order order = new Order();
         order.setUser(user);
-        order.setStatus(Order.Status.PENDING);
         order.setOrderDate(LocalDateTime.now());
-        order.setShippingAddress(requestDto.getShippingAddress());
+        order.setFirstName(dto.getFirstName());
+        order.setLastName(dto.getLastName());
+        order.setCountry(dto.getCountry());
+        order.setCity(dto.getCity());
+        order.setPost(dto.getPost());
+        order.setDepartment(dto.getDepartment());
         return order;
     }
 

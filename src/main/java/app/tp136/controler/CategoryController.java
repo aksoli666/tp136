@@ -37,7 +37,7 @@ public class CategoryController {
     )
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping()
+    @PostMapping
     public CategoryDto createCategory(@RequestBody @Valid CreateCategoryRequestDto requestDto) {
         return categoryService.save(requestDto);
     }
@@ -47,7 +47,7 @@ public class CategoryController {
             description = "Retrieves a pageable list of all categories."
     )
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN', 'ROLE_USER')")
-    @GetMapping()
+    @GetMapping
     public Page<CategoryDto> getAll(Pageable pageable) {
         return categoryService.findAll(pageable);
     }

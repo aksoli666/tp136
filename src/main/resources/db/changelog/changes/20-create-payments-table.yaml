@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-payments-table
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: enum('PROCESSING', 'PAID', 'INVALID')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: decimal(19,2)
+                  constraints:
+                    nullable: false

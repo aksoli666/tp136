@@ -6,6 +6,7 @@ import app.tp136.dto.responce.ShoppingCartResponseDto;
 import app.tp136.exception.EntityNotFoundException;
 import app.tp136.mapper.ShoppingCartMapper;
 import app.tp136.model.CartItem;
+import app.tp136.model.Product;
 import app.tp136.model.ShoppingCart;
 import app.tp136.model.User;
 import app.tp136.repository.CartItemRepository;
@@ -53,20 +54,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         Long productId = dto.getProductId();
         ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Can`t find shopping cart for this use. Id: " + userId));
-        boolean bookExists = shoppingCart.getCartItems().stream()
-                .anyMatch(cartItem -> cartItem.getProduct().getId().equals(productId));
-        if (bookExists) {
-            throw new IllegalArgumentException("Book already exists. Id: " + productId);
-        }
+                        "Can`t find shopping cart for this user. Id: " + userId));
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can`t find product. Id: " + productId));
+        cartItemRepository.findByShoppingCartAndProduct(shoppingCart, product)
+                .ifPresent(item -> {
+                    throw new IllegalArgumentException("Product already exists. Id: " + productId);
+                });
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
         cartItem.setQuantity(dto.getQuantity());
-        cartItem.setProduct(productRepository.findById(productId)
-                .orElseThrow(() -> new EntityNotFoundException("Can`t find book. Id: "
-                        + productId)));
+        cartItem.setProduct(product);
         shoppingCart.getCartItems().add(cartItem);
-        cartItemRepository.save(cartItem);
         shoppingCartRepository.save(shoppingCart);
         return shoppingCartMapper.toDto(shoppingCart);
     }
