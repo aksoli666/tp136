@@ -2,9 +2,7 @@ package app.tp136.security;
 
 import app.tp136.exception.EmailVerificationException;
 import app.tp136.exception.EntityNotFoundException;
-import app.tp136.model.User;
 import app.tp136.model.UserVerification;
-import app.tp136.repository.UserRepository;
 import app.tp136.repository.UserVerificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,14 +11,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailVerificationService {
     private final UserVerificationRepository verificationRepository;
-    private final UserRepository userRepository;
 
     public String verifyCodeForRegistration(
             String email, String verificationCode) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         UserVerification userVerification = verificationRepository
-                .findByEmailAndType(user.getEmail(), UserVerification.Type.VERIFICATION)
+                .findByEmailAndType(email, UserVerification.Type.VERIFICATION)
                 .orElseThrow(() -> new EntityNotFoundException("Verification not found"));
         if (checkVerificationCode(userVerification, verificationCode)) {
             setVerification(userVerification);
@@ -31,10 +26,8 @@ public class EmailVerificationService {
 
     public String verifyCodeForResetPassword(
             String email, String verificationCode) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         UserVerification userVerification = verificationRepository
-                .findByEmailAndType(user.getEmail(), UserVerification.Type.RESET)
+                .findByEmailAndType(email, UserVerification.Type.RESET)
                 .orElseThrow(() -> new EntityNotFoundException("Verification not found"));
         if (checkVerificationCode(userVerification, verificationCode)) {
             setVerification(userVerification);
