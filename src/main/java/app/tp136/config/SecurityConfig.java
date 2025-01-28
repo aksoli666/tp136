@@ -53,6 +53,7 @@ public class SecurityConfig {
                                         "/users/me/reset-pass",
                                         "/products",
                                         "/articles",
+                                        "/exhibitions",
                                         "/error",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**"

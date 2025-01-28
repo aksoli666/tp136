@@ -1,6 +1,9 @@
 package app.tp136.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,6 +24,10 @@ public class UpdateArticleRequestDto {
     private String contentUa;
     @NotBlank
     private String contentEng;
+    @NotEmpty
+    private Set<Long> tagIds = new HashSet<>();
+    @NotEmpty
+    private Set<String> photos = new HashSet<>(5);
 
     @Override
     public boolean equals(Object o) {
@@ -37,7 +44,8 @@ public class UpdateArticleRequestDto {
                 .append(authorUa, that.authorUa)
                 .append(authorEng, that.authorEng)
                 .append(contentUa, that.contentUa)
-                .append(contentEng, that.contentEng);
+                .append(contentEng, that.contentEng)
+                .append(photos, that.photos);
         return eb.isEquals();
     }
 
@@ -49,7 +57,8 @@ public class UpdateArticleRequestDto {
                 .append(authorUa)
                 .append(authorEng)
                 .append(contentUa)
-                .append(contentEng);
+                .append(contentEng)
+                .append(photos);
         return hcb.toHashCode();
     }
 }

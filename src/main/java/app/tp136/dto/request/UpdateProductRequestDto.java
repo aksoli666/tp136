@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,8 @@ public class UpdateProductRequestDto {
     private int inventory;
     @NotEmpty
     private Set<Long> categoryIds;
+    @NotEmpty
+    private Set<String> photos = new HashSet<>(5);
 
     @Override
     public boolean equals(Object o) {

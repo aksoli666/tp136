@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,8 @@ public class CreateProductRequestDto {
     private LocalDate publicationDate;
     @NotEmpty
     private Set<Long> categoryIds;
+    @NotEmpty
+    private Set<String> photos = new HashSet<>(5);
 
     @Override
     public boolean equals(Object o) {
@@ -59,7 +62,8 @@ public class CreateProductRequestDto {
                 .append(materialEng, that.materialEng)
                 .append(price, that.price)
                 .append(inventory, that.inventory)
-                .append(publicationDate, that.publicationDate);
+                .append(publicationDate, that.publicationDate)
+                .append(photos, that.photos);
         return eb.isEquals();
     }
 
@@ -77,7 +81,8 @@ public class CreateProductRequestDto {
                 .append(materialEng)
                 .append(price)
                 .append(inventory)
-                .append(publicationDate);
+                .append(publicationDate)
+                .append(photos);
         return hcb.toHashCode();
     }
 }

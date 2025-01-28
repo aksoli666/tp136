@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-discussions-topics
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: discussions_topics
+            columns:
+              - column:
+                  name: discussion_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_discussions_topics_discussion
+                    references: discussions(id)
+              - column:
+                  name: topic_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_discussions_topics_topic
+                    references: topics(id)

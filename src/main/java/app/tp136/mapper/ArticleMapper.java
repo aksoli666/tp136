@@ -5,7 +5,11 @@ import app.tp136.dto.ArticleDto;
 import app.tp136.dto.request.CreateArticleRequestDto;
 import app.tp136.dto.request.UpdateArticleRequestDto;
 import app.tp136.model.Article;
+import app.tp136.model.Tag;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.springframework.data.domain.Page;
@@ -26,5 +30,15 @@ public interface ArticleMapper {
     default Page<ArticleDto> toDtoPage(Page<Article> articles) {
         List<ArticleDto> dtos = toDtoList(articles.getContent());
         return new PageImpl<>(dtos, articles.getPageable(), articles.getTotalElements());
+    }
+
+    @AfterMapping
+    default void setTagIds(@MappingTarget ArticleDto dto, Article article) {
+        Set<Tag> tags = article.getTags();
+        Set<Long> tagIds = new HashSet<>();
+        for (Tag tag : tags) {
+            tagIds.add(tag.getId());
+        }
+        dto.setTagIds(tagIds);
     }
 }

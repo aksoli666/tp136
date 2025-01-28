@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-topics-table
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: topics
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name_ua
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name_eng
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description_ua
+                  type: varchar(255)
+              - column:
+                  name: description_eng
+                  type: varchar(255)
+              - column:
+                  name: is_deleted
+                  type: tinyint(1)
+                  constraints:
+                    nullable: false

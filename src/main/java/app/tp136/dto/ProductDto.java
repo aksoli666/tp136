@@ -25,6 +25,7 @@ public class ProductDto {
     private int inventory;
     private LocalDate publicationDate;
     private Set<Long> categoryIds = new HashSet<>();
+    private Set<String> photos = new HashSet<>(5);
 
     @Override
     public boolean equals(Object o) {
@@ -47,7 +48,8 @@ public class ProductDto {
                 .append(materialEng, that.materialEng)
                 .append(price, that.price)
                 .append(inventory, that.inventory)
-                .append(publicationDate, that.publicationDate);
+                .append(publicationDate, that.publicationDate)
+                .append(photos, that.photos);
         return eb.isEquals();
     }
 
@@ -65,7 +67,8 @@ public class ProductDto {
                 .append(materialEng)
                 .append(price)
                 .append(inventory)
-                .append(publicationDate);
+                .append(publicationDate)
+                .append(photos);
         return hcb.toHashCode();
     }
 }
