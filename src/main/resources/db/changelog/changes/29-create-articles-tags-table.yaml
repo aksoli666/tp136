@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-articles-tags-table
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: articles_tags
+            columns:
+              - column:
+                  name: article_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_articles_tags_article
+                    references: articles(id)
+              - column:
+                  name: tag_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_articles_tags_tag
+                    references: tags(id)

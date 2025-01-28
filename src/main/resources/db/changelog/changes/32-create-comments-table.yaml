@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-categories-table
+      author: dorofieieva
+      changes:
+        - createTable:
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_comments_user
+                    references: users(id)
+              - column:
+                  name: discussion_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_comments_discussion
+                    references: discussions(id)

@@ -45,3 +45,23 @@ databaseChangeLog:
       file: db/changelog/changes/22-create-cash-payments-table.yaml
   - include:
       file: db/changelog/changes/23-drop-carts-items.yaml
+  - include:
+      file: db/changelog/changes/24-create-exhibitions-table.yaml
+  - include:
+      file: db/changelog/changes/25-update-articles-table.yaml
+  - include:
+      file: db/changelog/changes/26-update-products-table.yaml
+  - include:
+      file: db/changelog/changes/27-create-inspections-table.yaml
+  - include:
+      file: db/changelog/changes/28-create-tags-table.yaml
+  - include:
+      file: db/changelog/changes/29-create-articles-tags-table.yaml
+  - include:
+      file: db/changelog/changes/30-create-topics-table.yaml
+  - include:
+      file: db/changelog/changes/31-create-discussions-table.yaml
+  - include:
+      file: db/changelog/changes/32-create-comments-table.yaml
+  - include:
+      file: db/changelog/changes/33-create-discussions-topics-table.yaml

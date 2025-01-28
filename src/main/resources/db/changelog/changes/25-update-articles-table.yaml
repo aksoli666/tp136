@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-articles-table
+      author: dorofieieva
+      changes:
+        - addColumn:
+            tableName: articles
+            columns:
+              - column:
+                  name: photos
+                  type: longtext
+                  constraints:
+                    nullable: false

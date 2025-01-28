@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-products-table
+      author: dorofieieva
+      changes:
+        - addColumn:
+            tableName: products
+            columns:
+              - column:
+                  name: photos
+                  type: longtext
+                  constraints:
+                    nullable: false

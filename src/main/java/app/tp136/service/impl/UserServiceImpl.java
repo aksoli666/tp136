@@ -20,11 +20,13 @@ import app.tp136.service.UserService;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -40,13 +42,20 @@ public class UserServiceImpl implements UserService {
     public void updateRole(Authentication authentication, String email, String roleName) {
         User admin = userDetailsService.getUserFromAuthentication(authentication);
         User userForUpdate = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Can`t find user for role update. Id: "));
+                .orElseThrow(() -> {
+                    log.error("User not found for email: {}", email);
+                    return new EntityNotFoundException("Can`t find user for role update. Email: "
+                            + email);
+                });
         Role roleForUpdate = convertsToRole(roleName);
+        log.info("Role to be added: {}", roleName);
+
         Set<Role> roles = new HashSet<>(userForUpdate.getRoles());
         ensureNoDuplicateRole(roles, roleForUpdate);
         roles.add(roleForUpdate);
         userForUpdate.setRoles(roles);
+
+        log.info("Role: {} successfully added to user: {}", roleName, email);
         userRepository.save(userForUpdate);
     }
 
@@ -56,7 +65,10 @@ public class UserServiceImpl implements UserService {
         UserDto dto = userMapper.toUserDto(user);
         UserVerification userVerification = userVerificationRepository
                 .findByEmailAndType(user.getEmail(), UserVerification.Type.VERIFICATION)
-                .orElseThrow(() -> new EntityNotFoundException("Verification not found"));
+                .orElseThrow(() -> {
+                    log.error("Verification not found for user: {}", user.getEmail());
+                    return new EntityNotFoundException("Verification not found");
+                });
         dto.setVerified(userVerification.isVerified());
         return dto;
     }
@@ -66,7 +78,11 @@ public class UserServiceImpl implements UserService {
     public UserUpdateResponseDto updateProfile(Authentication authentication,
                                                UserUpdateProfileRequestDto dto) {
         User user = userDetailsService.getUserFromAuthentication(authentication);
+        log.info("User found: {}", user.getEmail());
+
         userMapper.updateUser(dto, user);
+        log.info("Profile updated successfully for user: {}", user.getEmail());
+
         return userMapper.toUpdateDto(userRepository.save(user));
     }
 
@@ -76,15 +92,20 @@ public class UserServiceImpl implements UserService {
         User user = userDetailsService.getUserFromAuthentication(authentication);
         validatePasswordUpdate(user.getPassword(), dto);
         saveNewPassword(user, dto.getConfirmPassword());
+        log.info("Password updated successfully for user: {}", user.getEmail());
     }
 
     @Transactional
     @Override
     public void resetPassword(String email, UserResetPasswordRequestDto dto) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Can`t find user. Email: " + email));
+                .orElseThrow(() -> {
+                    log.error("User not found for email: {}", email);
+                    return new EntityNotFoundException("Can`t find user. Email: " + email);
+                });
         validateResetPassword(email);
         saveNewPassword(user, dto.getConfirmPassword());
+        log.info("Password reset successfully for user with email: {}", email);
     }
 
     @Transactional
@@ -92,6 +113,7 @@ public class UserServiceImpl implements UserService {
     public void deleteProfile(Authentication authentication) {
         User user = userDetailsService.getUserFromAuthentication(authentication);
         userRepository.delete(user);
+        log.info("Profile deleted successfully for user: {}", user.getEmail());
     }
 
     private Role convertsToRole(String roleName) {

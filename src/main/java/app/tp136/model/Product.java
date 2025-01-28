@@ -1,6 +1,8 @@
 package app.tp136.model;
 
+import app.tp136.converter.StringSetConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -59,6 +61,9 @@ public class Product {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Category> categories = new HashSet<>();
+    @Convert(converter = StringSetConverter.class)
+    @Column(nullable = false, columnDefinition = "longtext")
+    private Set<String> photos = new HashSet<>(5);
     @Column(nullable = false)
     private boolean isDeleted = false;
 
@@ -83,7 +88,8 @@ public class Product {
                 .append(materialEng, that.materialEng)
                 .append(price, that.price)
                 .append(inventory, that.inventory)
-                .append(publicationDate, that.publicationDate);
+                .append(publicationDate, that.publicationDate)
+                .append(photos, that.photos);
         return eb.isEquals();
     }
 
@@ -101,7 +107,8 @@ public class Product {
                 .append(materialEng)
                 .append(price)
                 .append(inventory)
-                .append(publicationDate);
+                .append(publicationDate)
+                .append(photos);
         return hcb.toHashCode();
     }
 }

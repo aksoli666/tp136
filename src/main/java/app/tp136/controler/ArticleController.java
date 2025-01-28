@@ -46,10 +46,19 @@ public class ArticleController {
             summary = "Get all articles",
             description = "Retrieves a pageable list of all articles."
     )
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_COPYWRITER', 'ROLE_USER')")
     @GetMapping
     public Page<ArticleDto> getAll(Pageable pageable) {
         return articleService.getAll(pageable);
+    }
+
+    @Operation(
+            summary = "Get all articles by tag id",
+            description = "Retrieves a pageable list of all articles by tag id."
+    )
+    @GetMapping("/tags/{tagId}")
+    public Page<ArticleDto> getAllByTagId(@PathVariable @Valid Long tagId,
+                                          Pageable pageable) {
+        return articleService.getAllByTagId(tagId, pageable);
     }
 
     @Operation(

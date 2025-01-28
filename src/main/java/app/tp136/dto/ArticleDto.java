@@ -1,7 +1,10 @@
 package app.tp136.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -23,6 +26,10 @@ public class ArticleDto {
     @NotBlank
     private String authorEng;
     private LocalDateTime published;
+    @NotEmpty
+    private Set<Long> tagIds = new HashSet<>();
+    @NotEmpty
+    private Set<String> photos = new HashSet<>(5);
 
     @Override
     public boolean equals(Object o) {
@@ -40,7 +47,8 @@ public class ArticleDto {
                 .append(authorEng, that.authorEng)
                 .append(contentUa, that.contentUa)
                 .append(contentEng, that.contentEng)
-                .append(published, that.published);
+                .append(published, that.published)
+                .append(photos, that.photos);
         return eb.isEquals();
     }
 
@@ -53,7 +61,8 @@ public class ArticleDto {
                 .append(authorEng)
                 .append(contentUa)
                 .append(contentEng)
-                .append(published);
+                .append(published)
+                .append(photos);
         return hcb.toHashCode();
     }
 }

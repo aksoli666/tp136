@@ -11,6 +11,8 @@ public interface ArticleService {
 
     Page<ArticleDto> getAll(Pageable pageable);
 
+    Page<ArticleDto> getAllByTagId(Long tagId, Pageable pageable);
+
     ArticleDto save(CreateArticleRequestDto dto);
 
     ArticleDto update(Long id, UpdateArticleRequestDto dto);
