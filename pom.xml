@@ -64,13 +64,6 @@
             <version>${jwt.version}</version>
         </dependency>
 
-        <!-- OAuth2 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-            <version>3.3.4</version>
-        </dependency>
-
         <!-- Database -->
         <dependency>
             <groupId>mysql</groupId>
@@ -135,6 +128,20 @@
         </dependency>
 
 
+        <!-- Logging dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+
         <!-- SpringDoc for API documentation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -146,7 +153,7 @@
             <version>2.1.0</version>
         </dependency>
 
-        <!-- Testing -->
+        <!-- Testing dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
