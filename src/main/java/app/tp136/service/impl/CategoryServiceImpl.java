@@ -9,13 +9,11 @@ import app.tp136.model.Category;
 import app.tp136.repository.CategoryRepository;
 import app.tp136.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -24,10 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto get(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> {
-            log.warn("Category not found with ID: {}", id);
-            return new EntityNotFoundException("Can't get category. Id: " + id);
-        });
+        Category category = categoryRepository.findById(id).orElseThrow(() ->
+            new EntityNotFoundException("Can't get category. Id: " + id));
         return categoryMapper.toCategoryDto(category);
     }
 
@@ -42,17 +38,14 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto save(CreateCategoryRequestDto createCategoryRequestDto) {
         Category category = categoryMapper.toCategory(createCategoryRequestDto);
         Category savedCategory = categoryRepository.save(category);
-        log.info("Successfully saved category with ID: {}", savedCategory.getId());
         return categoryMapper.toCategoryDto(savedCategory);
     }
 
     @Transactional
     @Override
     public CategoryDto update(Long id, UpdateCategoryRequestDto updateCategoryRequestDto) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> {
-            log.warn("Category not found for update. ID: {}", id);
-            return new EntityNotFoundException("Can't get category. Id: " + id);
-        });
+        Category category = categoryRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't get category. Id: " + id));
         categoryMapper.updateCategory(updateCategoryRequestDto, category);
         return categoryMapper.toCategoryDto(categoryRepository.save(category));
     }
@@ -62,9 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(Long id) {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
-            log.info("Successfully deleted category with ID: {}", id);
         } else {
-            log.warn("Attempted to delete non-existing category with ID: {}", id);
             throw new EntityNotFoundException("Can't delete category. Id: " + id);
         }
     }

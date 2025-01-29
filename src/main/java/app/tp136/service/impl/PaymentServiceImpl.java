@@ -16,14 +16,12 @@ import app.tp136.repository.TransferPaymentRepository;
 import app.tp136.security.CustomUserDetailsService;
 import app.tp136.service.PaymentService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -38,10 +36,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto get(Long id) {
-        Payment payment = paymentRepository.findById(id).orElseThrow(() -> {
-            log.warn("Payment not found for ID: {}", id);
-            return new EntityNotFoundException("Can't find payment. Id: " + id);
-        });
+        Payment payment = paymentRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Can't find payment. Id: " + id));
         PaymentDto dto = paymentMapper.toDto(payment);
         if (transferPaymentRepository.existsById(id)) {
             TransferPayment transferPayment = transferPaymentRepository.findById(id)
@@ -71,17 +67,12 @@ public class PaymentServiceImpl implements PaymentService {
     public void createInternalPayment(Authentication authentication,
                                       CreateInternalPaymentRequestDto dto,
                                       Long orderId) {
-        log.info("Creating internal payment for order ID: {}", orderId);
-
         Long userId = userDetailsService.getUserIdFromAuthentication(authentication);
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> {
-            log.warn("Order not found for ID: {}", orderId);
-            return new EntityNotFoundException("Can't find order. Id: " + orderId);
-        });
+        Order order = orderRepository.findById(orderId).orElseThrow(() ->
+                new EntityNotFoundException("Can't find order. Id: " + orderId));
         TransferPayment transferPayment = initializeTransferPayment(
                 order, INTERNAL, dto.getConfirmation());
         paymentRepository.save(transferPayment);
-        log.info("Internal payment created and saved for order ID: {}", orderId);
     }
 
     @Transactional
@@ -89,32 +80,22 @@ public class PaymentServiceImpl implements PaymentService {
     public void createInternationalPayment(Authentication authentication,
                                            CreateInternationalPaymentRequestDto dto,
                                            Long orderId) {
-        log.info("Creating international payment for order ID: {}", orderId);
-
         Long userId = userDetailsService.getUserIdFromAuthentication(authentication);
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> {
-            log.warn("Order not found for ID: {}", orderId);
-            return new EntityNotFoundException("Can't find order. Id: " + orderId);
-        });
+        Order order = orderRepository.findById(orderId).orElseThrow(() ->
+                new EntityNotFoundException("Can't find order. Id: " + orderId));
         TransferPayment transferPayment = initializeTransferPayment(
                 order, INTERNATIONAL, dto.getConfirmation());
         paymentRepository.save(transferPayment);
-        log.info("International payment created and saved for order ID: {}", orderId);
     }
 
     @Transactional
     @Override
     public void createCashPayment(Authentication authentication, Long orderId) {
-        log.info("Creating cash payment for order ID: {}", orderId);
-
         Long userId = userDetailsService.getUserIdFromAuthentication(authentication);
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> {
-            log.warn("Order not found for ID: {}", orderId);
-            return new EntityNotFoundException("Can't find order. Id: " + orderId);
-        });
+        Order order = orderRepository.findById(orderId).orElseThrow(() ->
+                new EntityNotFoundException("Can't find order. Id: " + orderId));
         CashPayment cashPayment = initializeCashPayment(order);
         paymentRepository.save(cashPayment);
-        log.info("Cash payment created and saved for order ID: {}", orderId);
     }
 
     @Transactional
@@ -122,21 +103,15 @@ public class PaymentServiceImpl implements PaymentService {
     public void approvePayment(Authentication authentication,
                                Long paymentId,
                                Payment.PaymentStatus status) {
-        log.info("Approving payment with ID: {} and status: {}", paymentId, status);
-
-        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> {
-            log.warn("Payment not found for ID: {}", paymentId);
-            return new EntityNotFoundException("Can't find payment by id. Id " + paymentId);
-        });
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() ->
+                new EntityNotFoundException("Can't find payment by id. Id " + paymentId));
 
         if (status == Payment.PaymentStatus.PROCESSING) {
-            log.info("Validating confirmation for payment ID: {}", paymentId);
             validateConfirmation(payment);
         }
 
         payment.setStatus(status);
         paymentRepository.save(payment);
-        log.info("Payment with ID: {} successfully updated to status: {}", paymentId, status);
     }
 
     private TransferPayment initializeTransferPayment(Order order,
@@ -148,7 +123,6 @@ public class PaymentServiceImpl implements PaymentService {
         transferPayment.setAmount(order.getTotal());
         transferPayment.setConfirmation(confirmation);
 
-        log.info("Transfer payment initialized with amount: {}", transferPayment.getAmount());
         return transferPayment;
     }
 
@@ -157,7 +131,6 @@ public class PaymentServiceImpl implements PaymentService {
         cashPayment.setAmount(order.getTotal());
         cashPayment.setStatus(Payment.PaymentStatus.PROCESSING);
 
-        log.info("Cash payment initialized with amount: {}", cashPayment.getAmount());
         return cashPayment;
     }
 
@@ -165,12 +138,9 @@ public class PaymentServiceImpl implements PaymentService {
         if (payment instanceof TransferPayment transferPayment) {
             if (transferPayment.getConfirmation() == null
                     || transferPayment.getConfirmation().isEmpty()) {
-                log.error("Confirmation screenshot is missing "
-                        + "for transfer payment with ID: {}", payment.getId());
                 throw new ConfirmationException(
                         "Confirmation screenshot is required for transfer payments.");
             }
-            log.info("Confirmation screenshot validated for payment with ID: {}", payment.getId());
         }
     }
 }

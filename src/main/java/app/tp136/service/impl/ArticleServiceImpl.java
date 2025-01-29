@@ -13,13 +13,11 @@ import app.tp136.service.ArticleService;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
@@ -29,11 +27,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto get(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(
-                () -> {
-                    log.warn("Article not found with ID: {}", id);
-                    return new EntityNotFoundException("Can`t get article. Id: " + id);
-                });
+        Article article = articleRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Can`t get article. Id: " + id));
         return articleMapper.toDto(article);
     }
 
@@ -55,7 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
         fetchTagsAndSetToArticle(dto.getTagIds(), article);
         article.setPublished(LocalDateTime.now());
         Article savedArticle = articleRepository.save(article);
-        log.info("Successfully saved article with ID: {}", savedArticle.getId());
         return articleMapper.toDto(savedArticle);
     }
 
@@ -63,10 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDto update(Long id, UpdateArticleRequestDto dto) {
         Article article = articleRepository.findById(id).orElseThrow(
-                () -> {
-                    log.warn("Article not found for update. ID: {}", id);
-                    return new EntityNotFoundException("Can't get article. Id: " + id);
-                });
+                () -> new EntityNotFoundException("Can't get article. Id: " + id));
         fetchTagsAndSetToArticle(dto.getTagIds(), article);
         articleMapper.updateArticle(dto, article);
         return articleMapper.toDto(articleRepository.save(article));
@@ -77,9 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void delete(Long id) {
         if (articleRepository.existsById(id)) {
             articleRepository.deleteById(id);
-            log.info("Successfully deleted article with ID: {}", id);
         } else {
-            log.warn("Attempted to delete non-existing article with ID: {}", id);
             throw new EntityNotFoundException("Can't delete article. Id: " + id);
         }
     }
