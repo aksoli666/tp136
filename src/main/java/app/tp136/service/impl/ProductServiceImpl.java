@@ -16,13 +16,11 @@ import app.tp136.spec.tools.impl.ProductSpecificationBuilder;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -36,16 +34,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(CreateProductRequestDto dto) {
         Product product = productMapper.toProduct(dto);
         fetchCategoriesAndSetToProduct(dto.getCategoryIds(), product);
-        log.info("Product saved successfully with ID: {}", product.getId());
         return productMapper.toDto(productRepository.save(product));
     }
 
     @Override
     public ProductDto get(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> {
-            log.warn("Product not found for ID: {}", id);
-            return new EntityNotFoundException("Can't find product. Id: " + id);
-        });
+        Product product = productRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Can't find product. Id: " + id));
         return productMapper.toDto(product);
     }
 
@@ -115,10 +110,8 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public ProductDto update(Long id, UpdateProductRequestDto dto) {
-        Product product = productRepository.findById(id).orElseThrow(() -> {
-            log.warn("Product not found for update. ID: {}", id);
-            return new EntityNotFoundException("Can't get category. Id: " + id);
-        });
+        Product product = productRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Can't get category. Id: " + id));
         fetchCategoriesAndSetToProduct(dto.getCategoryIds(), product);
         productMapper.update(dto, product);
         return productMapper.toDto(productRepository.save(product));

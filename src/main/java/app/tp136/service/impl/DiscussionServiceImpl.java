@@ -18,14 +18,12 @@ import app.tp136.security.CustomUserDetailsService;
 import app.tp136.service.DiscussionService;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DiscussionServiceImpl implements DiscussionService {
@@ -49,10 +47,8 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public DiscussionDto getDiscussion(Long id) {
-        Discussion discussion = discussionRepository.findById(id).orElseThrow(() -> {
-            log.warn("Discussion not found. ID: {}", id);
-            return new EntityNotFoundException("Can`t find discussion. Id: " + id);
-        });
+        Discussion discussion = discussionRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can`t find discussion. Id: " + id));
         return discussionMapper.toDto(discussion);
     }
 
@@ -76,10 +72,9 @@ public class DiscussionServiceImpl implements DiscussionService {
         User user = customUserDetailsService.getUserFromAuthentication(authentication);
         Comment comment = commentMapper.toComment(dto);
         comment.setUser(user);
-        Discussion discussion = discussionRepository.findById(discussionId).orElseThrow(() -> {
-            log.warn("Discussion not found with id: {}", discussionId);
-            return new EntityNotFoundException("Can`t find discussion. Id: " + discussionId);
-        });
+        Discussion discussion = discussionRepository.findById(discussionId).orElseThrow(
+                () -> new EntityNotFoundException("Can`t find discussion. Id: "
+                        + discussionId));
         comment.setDiscussion(discussion);
         discussion.getComments().add(comment);
         discussion.setCountComments(discussion.getComments().size());
@@ -90,10 +85,8 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public CommentDto getComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> {
-            log.warn("Comment not found for update. ID: {}", id);
-            return new EntityNotFoundException("Can`t find comment. Id: " + id);
-        });
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can`t find comment. Id: " + id));
         return commentMapper.toDto(comment);
     }
 
