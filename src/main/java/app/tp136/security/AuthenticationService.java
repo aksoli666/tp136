@@ -75,6 +75,7 @@ public class AuthenticationService {
         return user;
     }
 
+
     private Role fetchRole(Role.RoleName roleName) {
         return roleRepository.findByRole(roleName)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
