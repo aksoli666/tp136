@@ -12,7 +12,6 @@ import app.tp136.model.Payment;
 import app.tp136.model.TransferPayment;
 import app.tp136.repository.OrderRepository;
 import app.tp136.repository.PaymentRepository;
-import app.tp136.repository.TransferPaymentRepository;
 import app.tp136.security.CustomUserDetailsService;
 import app.tp136.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ public class PaymentServiceImpl implements PaymentService {
     private final CustomUserDetailsService userDetailsService;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
-    private final TransferPaymentRepository transferPaymentRepository;
     private final PaymentMapper paymentMapper;
 
     @Override
