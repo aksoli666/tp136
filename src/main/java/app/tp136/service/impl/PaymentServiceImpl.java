@@ -39,10 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
         Payment payment = paymentRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Can't find payment. Id: " + id));
         PaymentDto dto = paymentMapper.toDto(payment);
-        if (transferPaymentRepository.existsById(id)) {
-            TransferPayment transferPayment = transferPaymentRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException(
-                            "Can't find transfer payment. Id: " + id));
+        if (payment instanceof TransferPayment transferPayment) {
             dto.setConfirmation(transferPayment.getConfirmation());
             dto.setInternational(transferPayment.isInternational());
         }

@@ -20,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,16 +34,17 @@ public class AuthenticationService {
     private final AuctionNumberGenerator auctionNumberGenerator;
     private final UserMapper userMapper;
 
-    public UserDto register(UserRegisterRequestDto dto) throws RegistrationException {
-        if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new RegistrationException("Email already exists");
-        }
-        User user = createNewUser(dto);
-        userRepository.save(user);
-        shoppingCartService.createShoppingCart(user);
-        return userMapper.toUserDto(user);
+    @Transactional
+    public UserDto registerUser(UserRegisterRequestDto dto) throws RegistrationException {
+        return register(dto, Role.RoleName.ROLE_USER);
     }
 
+    @Transactional
+    public UserDto registerAdmin(UserRegisterRequestDto dto) throws RegistrationException {
+        return register(dto, Role.RoleName.ROLE_ADMIN);
+    }
+
+    @Transactional
     public UserLoginResponseDto login(UserLoginRequestDto loginDto) {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -54,16 +56,27 @@ public class AuthenticationService {
         return new UserLoginResponseDto(token);
     }
 
-    private User createNewUser(UserRegisterRequestDto dto) {
+    private UserDto register(UserRegisterRequestDto dto, Role.RoleName roleName)
+            throws RegistrationException {
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new RegistrationException("Email already exists");
+        }
+        User user = createNewUser(dto, roleName);
+        userRepository.save(user);
+        shoppingCartService.createShoppingCart(user);
+        return userMapper.toUserDto(user);
+    }
+
+    private User createNewUser(UserRegisterRequestDto dto, Role.RoleName roleName) {
         User user = userMapper.toUser(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRoles(Set.of(fetchUserRole()));
+        user.setRoles(Set.of(fetchRole(roleName)));
         user.setAuctionNumber(auctionNumberGenerator.generateAuctionNumber());
         return user;
     }
 
-    private Role fetchUserRole() {
-        return roleRepository.findByRole(Role.RoleName.ROLE_USER)
+    private Role fetchRole(Role.RoleName roleName) {
+        return roleRepository.findByRole(roleName)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
     }
 }

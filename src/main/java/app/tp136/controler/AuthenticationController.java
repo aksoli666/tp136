@@ -31,11 +31,25 @@ public class AuthenticationController {
                     + "Upon successful registration, "
                     + "the user will be able to log in and access the system."
     )
-    @PostMapping("/registration")
+    @PostMapping("/user/registration")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto register(@Valid @RequestBody UserRegisterRequestDto registerDto)
+    public UserDto registerUser(@Valid @RequestBody UserRegisterRequestDto registerDto)
             throws RegistrationException {
-        return authenticationService.register(registerDto);
+        return authenticationService.registerUser(registerDto);
+    }
+
+    @Operation(
+            summary = "Register a new admin",
+            description = "Registers a new admin by providing essential details "
+                    + "such as email, phone number, password, first name, and last name. "
+                    + "Upon successful registration, "
+                    + "the user will be able to log in and access the system."
+    )
+    @PostMapping("/admin/registration")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto registerAdmin(@Valid @RequestBody UserRegisterRequestDto registerDto)
+            throws RegistrationException {
+        return authenticationService.registerAdmin(registerDto);
     }
 
     @Operation(

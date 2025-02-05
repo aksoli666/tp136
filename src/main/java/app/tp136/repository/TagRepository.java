@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    @Query("SELECT t FROM Tag t WHERE t.id IN :ids")
+    @Query("SELECT t FROM Tag t WHERE t.id IN :ids AND t.isDeleted = false")
     Set<Tag> findByIds(Set<Long> ids);
 }

@@ -38,6 +38,6 @@ public class ShoppingCart {
     private boolean isDeleted = false;
 
     public void removeItemFromCart(CartItem cartItem) {
-        cartItems.remove(cartItem);
+        cartItems.removeIf(item -> item.getId().equals(cartItem.getId()));
     }
 }
