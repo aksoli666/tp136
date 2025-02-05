@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userForUpdate);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserDto getProfile(Authentication authentication) {
         User user = userDetailsService.getUserFromAuthentication(authentication);

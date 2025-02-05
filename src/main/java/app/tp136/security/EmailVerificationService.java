@@ -24,7 +24,7 @@ public class EmailVerificationService {
 
     private String verifyCode(String email, String verificationCode,
                               UserVerification.Type type, String processName) {
-        UserVerification userVerification = getVerificationRecord(email, type, processName);
+        UserVerification userVerification = getVerificationRecord(email, type);
 
         if (checkVerificationCode(userVerification, verificationCode)) {
             setVerification(userVerification);
@@ -35,8 +35,7 @@ public class EmailVerificationService {
     }
 
     private UserVerification getVerificationRecord(String email,
-                                                   UserVerification.Type type,
-                                                   String processName) {
+                                                   UserVerification.Type type) {
         return verificationRepository.findByEmailAndType(email, type)
                 .orElseThrow(() -> new EntityNotFoundException("Verification not found"));
     }
