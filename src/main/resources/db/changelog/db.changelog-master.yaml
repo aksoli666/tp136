@@ -65,3 +65,5 @@ databaseChangeLog:
       file: db/changelog/changes/32-create-comments-table.yaml
   - include:
       file: db/changelog/changes/33-create-discussions-topics-table.yaml
+  - include:
+      file: db/changelog/changes/34-update-exhibition-table.yaml

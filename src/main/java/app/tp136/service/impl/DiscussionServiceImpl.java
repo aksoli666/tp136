@@ -53,6 +53,12 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
+    public Page<DiscussionDto> findDiscussionByTopicName(Long topicId, Pageable pageable) {
+        return discussionMapper.toDtoPage(
+                discussionRepository.findAllByTopicId(topicId, pageable));
+    }
+
+    @Override
     public Page<DiscussionDto> getDiscussions(Pageable pageable) {
         return discussionMapper.toDtoPage(
                 discussionRepository.findAll(pageable));

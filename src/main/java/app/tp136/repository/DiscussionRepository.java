@@ -15,6 +15,12 @@ public interface DiscussionRepository extends JpaRepository<Discussion, Long> {
     Optional<Discussion> findById(Long id);
 
     @Query("SELECT d FROM Discussion d "
+            + "JOIN FETCH d.topics t "
+            + "WHERE t.id = :topicId "
+            + "AND d.isDeleted = false")
+    Page<Discussion> findAllByTopicId(Long topicId, Pageable pageable);
+
+    @Query("SELECT d FROM Discussion d "
             + "JOIN FETCH d.comments c "
             + "JOIN FETCH d.topics t "
             + "WHERE d.isDeleted = false")

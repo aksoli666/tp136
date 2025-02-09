@@ -42,6 +42,14 @@ public class Exhibition {
     private Event event;
     @Column(nullable = false)
     private String source;
+    @Column(nullable = false)
+    private String duration;
+    @Column(nullable = false)
+    private String location;
+    @Column(nullable = false)
+    private String address;
+    @Column(nullable = false)
+    private String entrance;
     @Convert(converter = StringSetConverter.class)
     @Column(nullable = false, columnDefinition = "longtext")
     private Set<String> photos = new HashSet<>(5);
@@ -50,7 +58,8 @@ public class Exhibition {
 
     public enum Event {
         WAS,
-        WILL
+        WILL,
+        NOW
     }
 
     @Override
@@ -68,6 +77,10 @@ public class Exhibition {
                 .append(contentUa, that.contentUa)
                 .append(contentEng, that.contentEng)
                 .append(event, that.event)
+                .append(entrance, that.entrance)
+                .append(location, that.location)
+                .append(address, that.address)
+                .append(duration, that.duration)
                 .append(source, that.source)
                 .append(photos, that.photos);
         return eb.isEquals();
@@ -82,6 +95,10 @@ public class Exhibition {
                 .append(contentEng)
                 .append(event)
                 .append(source)
+                .append(duration)
+                .append(location)
+                .append(address)
+                .append(entrance)
                 .append(photos);
         return hcb.toHashCode();
     }

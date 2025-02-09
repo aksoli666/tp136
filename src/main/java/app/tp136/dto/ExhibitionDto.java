@@ -26,6 +26,14 @@ public class ExhibitionDto {
     private Exhibition.Event event;
     @NotBlank
     private String source;
+    @NotBlank
+    private String duration;
+    @NotBlank
+    private String location;
+    @NotBlank
+    private String address;
+    @NotBlank
+    private String entrance;
     @NotEmpty
     private Set<String> photos = new HashSet<>(5);
 
