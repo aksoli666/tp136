@@ -31,6 +31,13 @@ public class ExhibitionsServiceImpl implements ExhibitionService {
                 exhibitionRepository.findAll(pageable));
     }
 
+    @Override
+    public Page<ExhibitionDto> getExhibitionsByEvent(String eventName, Pageable pageable) {
+        Exhibition.Event event = Exhibition.Event.valueOf(eventName.toUpperCase());
+        return exhibitionMapper.toDtoPage(
+                exhibitionRepository.findAllByEvent(event, pageable));
+    }
+
     @Transactional
     @Override
     public ExhibitionDto save(ExhibitionDto dto) {

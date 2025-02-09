@@ -9,6 +9,8 @@ public interface ExhibitionService {
 
     Page<ExhibitionDto> getAll(Pageable pageable);
 
+    Page<ExhibitionDto> getExhibitionsByEvent(String eventName, Pageable pageable);
+
     ExhibitionDto save(ExhibitionDto dto);
 
     ExhibitionDto update(Long id, ExhibitionDto dto);

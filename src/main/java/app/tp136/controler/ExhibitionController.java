@@ -5,6 +5,7 @@ import app.tp136.service.ExhibitionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,6 +49,18 @@ public class ExhibitionController {
     @GetMapping
     public Page<ExhibitionDto> getAll(Pageable pageable) {
         return exhibitionService.getAll(pageable);
+    }
+
+    @Operation(
+            summary = "Get all exhibitions by event name",
+            description = "Fetches the details of a exhibition by its event name."
+    )
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MARKET_ADMIN',"
+            + " 'ROLE_COPYWRITER', 'ROLE_USER')")
+    @GetMapping("/eventName")
+    public Page<ExhibitionDto> getAllByEventName(@RequestParam @NotBlank String eventName,
+                                                 Pageable pageable) {
+        return exhibitionService.getExhibitionsByEvent(eventName, pageable);
     }
 
     @Operation(

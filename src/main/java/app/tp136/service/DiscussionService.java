@@ -14,6 +14,9 @@ public interface DiscussionService {
 
     DiscussionDto getDiscussion(Long id);
 
+    Page<DiscussionDto> findDiscussionByTopicName(Long topicId,
+                                                  Pageable pageable);
+
     Page<DiscussionDto> getDiscussions(Pageable pageable);
 
     void delete(Long id);

@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-exhibition-table
+      author: dorofieieva
+      changes:
+        - addColumn:
+            tableName: exhibitions
+            columns:
+              - column:
+                  name: duration
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: location
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: entrance
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - modifyDataType:
+            tableName: exhibitions
+            columnName: event
+            newDataType: enum('WAS', 'WILL', 'NOW')

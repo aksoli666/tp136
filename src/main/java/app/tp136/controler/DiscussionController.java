@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +53,16 @@ public class DiscussionController {
     @GetMapping("/{id}")
     DiscussionDto getDiscussion(@PathVariable @Positive Long id) {
         return discussionService.getDiscussion(id);
+    }
+
+    @Operation(
+            summary = "Get a discussion by topic ID",
+            description = "Fetches the details of a discussion by its topic ID."
+    )
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @GetMapping("/topic")
+    Page<DiscussionDto> getAllByTopic(@RequestParam @Positive Long topicId, Pageable pageable) {
+        return discussionService.findDiscussionByTopicName(topicId, pageable);
     }
 
     @Operation(
