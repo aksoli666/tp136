@@ -53,6 +53,20 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     @Override
+    public Page<DiscussionDto> getAllDiscussionByDatePublishing(
+            Pageable pageable) {
+        return discussionMapper.toDtoPage(
+                discussionRepository.findAllPublishedDesc(pageable));
+    }
+
+    @Override
+    public Page<DiscussionDto> getAllDiscussionByPopularity(
+            Pageable pageable) {
+        return discussionMapper.toDtoPage(
+                discussionRepository.findAllByPopularity(pageable));
+    }
+
+    @Override
     public Page<DiscussionDto> findDiscussionByTopicName(Long topicId, Pageable pageable) {
         return discussionMapper.toDtoPage(
                 discussionRepository.findAllByTopicId(topicId, pageable));
