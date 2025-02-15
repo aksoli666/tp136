@@ -40,7 +40,7 @@ public class DiscussionController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    DiscussionDto createDiscussion(Authentication authentication,
+    public DiscussionDto createDiscussion(Authentication authentication,
                                    @RequestBody @Valid CreateDiscussionRequestDto dto) {
         return discussionService.save(authentication, dto);
     }
@@ -51,7 +51,7 @@ public class DiscussionController {
     )
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
-    DiscussionDto getDiscussion(@PathVariable @Positive Long id) {
+    public DiscussionDto getDiscussion(@PathVariable @Positive Long id) {
         return discussionService.getDiscussion(id);
     }
 
@@ -61,7 +61,8 @@ public class DiscussionController {
     )
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/topic")
-    Page<DiscussionDto> getAllByTopic(@RequestParam @Positive Long topicId, Pageable pageable) {
+    public Page<DiscussionDto> getAllByTopic(@RequestParam @Positive Long topicId,
+                                             Pageable pageable) {
         return discussionService.findDiscussionByTopicName(topicId, pageable);
     }
 
@@ -71,8 +72,32 @@ public class DiscussionController {
     )
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping
-    Page<DiscussionDto> getDiscussions(Pageable pageable) {
+    public Page<DiscussionDto> getDiscussions(Pageable pageable) {
         return discussionService.getDiscussions(pageable);
+    }
+
+    @Operation(
+            summary = "Get all discussions sorted by publishing date",
+            description = "Fetch all discussions "
+                    + "from newest to oldest based on the publishing date."
+    )
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @GetMapping("/by-date-publishing")
+    public Page<DiscussionDto> getAllDiscussionsByDatePublishing(
+            Pageable pageable) {
+        return discussionService.getAllDiscussionByDatePublishing(pageable);
+    }
+
+    @Operation(
+            summary = "Get all discussions sorted by popularity",
+            description = "Fetch all discussions ordered "
+                    + "by the number of comments, "
+                    + "from most popular (most comments) to least popular (fewest comments)."
+    )
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @GetMapping("/by-popularity")
+    public Page<DiscussionDto> getAllByPopularity(Pageable pageable) {
+        return discussionService.getAllDiscussionByPopularity(pageable);
     }
 
     @Operation(
@@ -82,7 +107,7 @@ public class DiscussionController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    void deleteDiscussion(@PathVariable @Positive Long id) {
+    public void deleteDiscussion(@PathVariable @Positive Long id) {
         discussionService.delete(id);
     }
 
@@ -93,7 +118,7 @@ public class DiscussionController {
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add-comment/{discussionId}")
-    CommentDto addComment(Authentication authentication,
+    public CommentDto addComment(Authentication authentication,
                           @PathVariable @Positive Long discussionId,
                           @RequestBody @Valid CreateCommentRequestDto dto) {
         return discussionService.addComment(authentication, discussionId, dto);
@@ -105,7 +130,7 @@ public class DiscussionController {
     )
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/comments/{id}")
-    CommentDto getComment(@PathVariable @Positive Long id) {
+    public CommentDto getComment(@PathVariable @Positive Long id) {
         return discussionService.getComment(id);
     }
 
@@ -115,7 +140,7 @@ public class DiscussionController {
     )
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/comments")
-    Page<CommentDto> getComments(Pageable pageable) {
+    public Page<CommentDto> getComments(Pageable pageable) {
         return discussionService.getComments(pageable);
     }
 
@@ -126,7 +151,7 @@ public class DiscussionController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/comments/{id}")
-    void deleteComment(@PathVariable @Positive Long id) {
+    public void deleteComment(@PathVariable @Positive Long id) {
         discussionService.delete(id);
     }
 }

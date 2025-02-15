@@ -14,6 +14,10 @@ public interface DiscussionService {
 
     DiscussionDto getDiscussion(Long id);
 
+    Page<DiscussionDto> getAllDiscussionByDatePublishing(Pageable pageable);
+
+    Page<DiscussionDto> getAllDiscussionByPopularity(Pageable pageable);
+
     Page<DiscussionDto> findDiscussionByTopicName(Long topicId,
                                                   Pageable pageable);
 
